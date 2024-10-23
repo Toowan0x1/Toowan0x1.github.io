@@ -1,0 +1,40 @@
+html, body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+#particle-canvas {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1; /* Lower z-index to place it behind the content */
+  background: url('https://i2.pickpik.com/photos/575/564/872/bridge-black-and-white-black-white-de5e23fe77185c1682b64bbe10535eb7.jpg') no-repeat center center/cover;
+}
+
+
+.centered-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2; /* Higher z-index so it appears above the background and particles */
+  text-align: center;
+  color: white; /* Text color to contrast the background */
+  font-family: Arial, sans-serif;
+}
+
+.centered-content a {
+  color: white; /* Set the link color */
+  text-decoration: none;
+  margin: 0 10px;
+}
+
+.centered-content a:hover {
+  text-decoration: underline;
+}
+
