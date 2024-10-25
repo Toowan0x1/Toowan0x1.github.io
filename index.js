@@ -10,7 +10,7 @@ var options = {
   particleColor: '#888',
   //background: 'https://raw.githubusercontent.com/JulianLaval/canvas-particle-network/master/img/demo-bg.jpg',
   //background: '',
-  background: 'https://i2.pickpik.com/photos/575/564/872/bridge-black-and-white-black-white-de5e23fe77185c1682b64bbe10535eb7.jpg',
+  background: 'https://wallpaperset.com/w/full/d/5/0/93559.jpg',
   //background: 'https://wallpaper.forfun.com/fetch/02/025f165ab54fbef0c6f520ba048857da.jpeg',
   interactive: true,
   speed: 'medium',
