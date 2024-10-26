@@ -7,13 +7,19 @@
 
 var canvasDiv = document.getElementById('particle-canvas');
 var options = {
-  particleColor: '#888',
+  particleColor: '#b319a6',
   //background: 'https://raw.githubusercontent.com/JulianLaval/canvas-particle-network/master/img/demo-bg.jpg',
   //background: '',
-  background: 'https://wallpaperset.com/w/full/d/5/0/93559.jpg',
+  // this >> background: 'https://wallpaperset.com/w/full/d/5/0/93559.jpg',
   //background: 'https://wallpaper.forfun.com/fetch/02/025f165ab54fbef0c6f520ba048857da.jpeg',
   interactive: true,
-  speed: 'medium',
+  speed: 'fast',
   density: 'high'
 };
 var particleCanvas = new ParticleNetwork(canvasDiv, options);
+
+
+/*
+#008000
+
+*/
