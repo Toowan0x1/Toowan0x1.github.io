@@ -16,7 +16,17 @@
     <!-- Centered content -->
 	<!-- -->
 	<div class="centered-content">
-		<img src="https://raw.githubusercontent.com/Toowan0x1/Toowan0x1.github.io/refs/heads/master/1702097820017.jpg" alt="Profile Image" class="profile-img">
+    <div class="profile-container">
+    <img src="https://raw.githubusercontent.com/Toowan0x1/Toowan0x1.github.io/refs/heads/master/1702097820017.jpg" alt="Profile Image" class="profile-img">
+    
+    <!-- Small circle for the flag -->
+    <div class="flag-circle">
+      <!-- flag -->  
+      <!-- <img src="https://cdn.countryflags.com/thumbs/morocco/flag-400.png" alt="Country Flag" class="flag-img"> -->
+      <!-- <img src="https://blog-preview-card-kohl-sigma.vercel.app/assets/backgrnd%20img.png" alt="Country Flag" class="flag-img"> -->
+      <img src="   https://cdn-icons-png.flaticon.com/512/197/197551.png " alt="Country Flag" class="flag-img">
+    </div>
+</div>  
 		<h1 style="margin-bottom: 0px">Omar El Houmadi</h1>
 		<p style="margin-top: 10px;">@Toowan0x1</p>
 		<!-- <p>Title</p>
@@ -43,4 +53,45 @@
     border: 2px solid #000; /* Optional: Add a border */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Optional: Add a shadow */
 }
+</style>
+
+<style>
+    /* Main container for profile image and flag */
+    .profile-container {
+        position: relative;
+        display: inline-block;
+    }
+
+    /* Profile image styling */
+    .profile-img {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid #000;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Flag circle styling */
+    .flag-circle {
+        position: absolute;
+        top: 50%; /* Center vertically */
+        left: 100%; /* Align to the right side of the profile image */
+        transform: translate(-90%, 80%); /* Move half the width of the flag circle to the left */
+        /* transform: translate(-40%, -40%); */
+        width: 30px; /* Reduced width */
+        height: 30px; /* Reduced height */
+        border-radius: 50%;
+        overflow: hidden;
+        border: 2px solid #000;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        background-color: #fff;
+    }
+
+    /* Flag image styling */
+    .flag-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
 </style>
