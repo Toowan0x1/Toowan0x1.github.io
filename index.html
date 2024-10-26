@@ -2,96 +2,130 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Particle Background</title>
+    <title>Toowan0x1 Portfolio</title>
     <link rel="stylesheet" href="style.css">
 
-	<!-- integrate platforms icons -->
+    <!-- integrate platforms icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
 </head>
 <body>
-	<!-- navbar here -->
-	
-    <!-- Overlay text element -->
-	<div id="particle-canvas"></div>
-    <!-- Centered content -->
-	<!-- -->
-	<div class="centered-content">
-    <div class="profile-container">
-    <img src="https://raw.githubusercontent.com/Toowan0x1/Toowan0x1.github.io/refs/heads/master/1702097820017.jpg" alt="Profile Image" class="profile-img">
+    <!-- navbar here -->
     
-    <!-- Small circle for the flag -->
-    <div class="flag-circle">
-      <!-- flag -->  
-      <!-- <img src="https://cdn.countryflags.com/thumbs/morocco/flag-400.png" alt="Country Flag" class="flag-img"> -->
-      <!-- <img src="https://blog-preview-card-kohl-sigma.vercel.app/assets/backgrnd%20img.png" alt="Country Flag" class="flag-img"> -->
-      <img src="   https://cdn-icons-png.flaticon.com/512/197/197551.png " alt="Country Flag" class="flag-img">
+    <!-- Overlay text element -->
+    <div id="particle-canvas"></div>
+    <!-- Centered content -->
+    <div class="centered-content">
+        <div class="profile-container">
+            <img src="https://raw.githubusercontent.com/Toowan0x1/Toowan0x1.github.io/refs/heads/master/1702097820017.jpg" alt="Profile Image" class="profile-img">
+            <!-- Small circle for the flag -->
+            <div class="flag-circle">
+            <!-- flag -->
+            <!-- <img src="https://cdn.countryflags.com/thumbs/morocco/flag-400.png" alt="Country Flag" class="flag-img"> -->
+            <!-- <img src="https://blog-preview-card-kohl-sigma.vercel.app/assets/backgrnd%20img.png" alt="Country Flag" class="flag-img"> -->
+            <img src="   https://cdn-icons-png.flaticon.com/512/197/197551.png " alt="Country Flag" class="flag-img">
+        </div>
     </div>
-</div>  
-		<h1 style="margin-bottom: 0px">Omar El Houmadi</h1>
-		<p style="margin-top: 10px;">@Toowan0x1</p>
-		<!-- <p>Title</p>
-		<p>Connection:</p> -->
-		<a href="localhost"><i class="fa-brands fa-lg fa-linkedin" ></i></a>
-		<a href="localhost"><i class="fa-brands fa-lg fa-github"></i></a>
-        	<a href="localhost"><i class="fa-brands fa-lg fa-twitter"></i></a>
-		<a href="localhost"><i class="fa-brands fa-lg fa-discord"></i></a>
-		<a href="localhost"><i class="fa-brands fa-lg fa-medium"></i></a>
-		<a href="localhost"><i class="fa-solid fa-lg fa-file-pdf"></i></a>
-		<!-- <a href="#">HTB</a> | <a href="#">THM</a> -->
-	</div>
+        <h1 style="margin-bottom: 0px; ">Omar El Houmadi</h1>
+        <p style="margin-top: 7px; margin-bottom: 15px; font-family: fantasy;">( @Toowan0x1 )</p>
+        <!-- <p>Title</p>
+        <p>Connection:</p> -->
+        <a href="https://www.linkedin.com/in/omar-elhoumadi/" class="social-icon linkedin-icon" target="_blank">
+            <i class="fa-brands fa-lg fa-linkedin" ></i>
+        </a>
+        <a href="https://github.com/Toowan0x1" class="social-icon github-icon" target="_blank">
+            <i class="fa-brands fa-lg fa-github"></i>
+        </a>
+        <a href="https://twitter.com/Toowan0x1" class="social-icon twitter-icon" target="_blank">
+            <i class="fa-brands fa-lg fa-twitter"></i>
+        </a>
+        <a href="https://discordapp.com/users/Toowan5118" class="social-icon discord-icon" target="_blank">
+            <i class="fa-brands fa-lg fa-discord"></i>
+        </a>
+        <a href="https://medium.com/Toowan0x1" class="social-icon medium-icon" target="_blank">
+            <i class="fa-brands fa-lg fa-medium"></i>
+        </a>
+        <a href="https://toowan0x1.github.io/Srcs/Resume.pdf" class="social-icon pdf-icon" target="_blank">
+            <i class="fa-solid fa-lg fa-file-pdf"></i>
+        </a>
+        <!-- <a href="#">HTB</a> | <a href="#">THM</a> -->
+    </div>
     <!-- Link the JavaScript file -->
-    <script src="index.js"></script>
+    <script src="script.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
 </body>
 </html>
 
-<style>
-.profile-img {
-    width: 150px; /* Adjust size as needed */
-    height: 150px; /* Maintain equal width and height for a perfect circle */
-    border-radius: 50%; /* Makes the image circular */
-    object-fit: cover; /* Ensures the image fills the circle without distortion */
-    border: 2px solid #000; /* Optional: Add a border */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Optional: Add a shadow */
-}
-</style>
 
 <style>
-    /* Main container for profile image and flag */
-    .profile-container {
-        position: relative;
-        display: inline-block;
+    /* Default styles for the icons */
+    .social-icon {
+        font-size: 24px; /* Icon size */
+        margin: 0 10px; /* Space between icons */
+        transition: color 0.3s ease; /* Smooth transition */
+        color: black; /* Default color */
+        text-decoration: none; /* Remove underline */
+
+        position: relative; /* Position for tooltip */
+    }
+    .social-icon:hover {
+        text-decoration: none;
     }
 
-    /* Profile image styling */
-    .profile-img {
-        width: 150px;
-        height: 150px;
-        border-radius: 50%;
-        object-fit: cover;
-        border: 2px solid #000;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    /* Discord */
+    .discord-icon {
+        color: #7289da; /* Discord default color */
+    }
+    .discord-icon:hover {
+        color: purple; /* Hover color for Discord */
     }
 
-    /* Flag circle styling */
-    .flag-circle {
-        position: absolute;
-        top: 50%; /* Center vertically */
-        left: 100%; /* Align to the right side of the profile image */
-        transform: translate(-90%, 80%); /* Move half the width of the flag circle to the left */
-        /* transform: translate(-40%, -40%); */
-        width: 30px; /* Reduced width */
-        height: 30px; /* Reduced height */
-        border-radius: 50%;
-        overflow: hidden;
-        border: 2px solid #000;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-        background-color: #fff;
+    /* Twitter */
+    .twitter-icon {
+        color: #34373a; /* Twitter default color */
+    }
+    .twitter-icon:hover {
+        color: #009fe1; /* Hover color for Twitter */
     }
 
-    /* Flag image styling */
-    .flag-img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
+    /* Medium */
+    .medium-icon {
+        color: #00AB6C; /* Medium default color */
+    }
+    .medium-icon:hover {
+        color: #0a7e53; /* Hover color for Medium */
+    }
+
+    /* Style for the link */
+    .pdf-icon {
+        color: black; /* Default color */
+        transition: color 0.3s ease; /* Smooth transition */
+    }
+
+    /* Change color on hover */
+    .pdf-icon:hover {
+        color: red; /* Hover color */
+    }
+
+    /* GitHub */
+    .github-icon {
+        color: #808080; /* Default grey color for GitHub */
+    }
+    .github-icon:hover {
+       color: #b0b0b0; /* Lighter grey on hover for GitHub */
+    }
+
+    /* Linkedin */
+    .linkedin-icon {
+        color: #808080; /* Default grey color for GitHub */
+    }
+    .linkedin-icon:hover {
+       color: #4267c7; /* Lighter grey on hover for GitHub */
     }
 </style>
