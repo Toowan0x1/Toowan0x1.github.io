@@ -11,24 +11,6 @@
   - `/images`: Portfolio-related images.
   - `/docs`: Any relevant PDF documents.
 
-## Structure
-
-`'├── index.html
-├── style.css
-├── script.js
-├── js
-├── css
-├── assets
-│   ├── docs
-│   │   ├── generate.pdf
-│   │   └── Resume.pdf
-│   └── images
-│       ├── avatar.jpg
-│       ├── hackthebox-svgrepo-com-green.svg
-│       └── hackthebox-svgrepo-com-white.svg
-└── README.md'`
-
-
 ## Features
 
 - **Full Name & Information**: Displays my full name and a brief introduction.
