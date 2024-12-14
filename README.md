@@ -13,20 +13,20 @@
 
 ## Structure
 
-├── index.html
+`'├── index.html
 ├── style.css
 ├── script.js
 ├── js
 ├── css
 ├── assets
-│   ├── docs
-│   │   ├── generate.pdf
-│   │   └── Resume.pdf
-│   └── images
-│       ├── avatar.jpg
-│       ├── hackthebox-svgrepo-com-green.svg
-│       └── hackthebox-svgrepo-com-white.svg
-└── README.md
+│   ├── docs
+│   │   ├── generate.pdf
+│   │   └── Resume.pdf
+│   └── images
+│       ├── avatar.jpg
+│       ├── hackthebox-svgrepo-com-green.svg
+│       └── hackthebox-svgrepo-com-white.svg
+└── README.md'`
 
 
 ## Features
