@@ -11,26 +11,6 @@
     <content><![CDATA[]]></content>
   </entry>
   <entry>
-    <title>HackTheBox - Signed writeup (Windows/Medium)</title>
-    <url>/2026/02/25/HackTheBox-Signed-writeup-Windows-Medium/</url>
-    <content><![CDATA[<h2 id="🔍-Enumeration"><a href="#🔍-Enumeration" class="headerlink" title="🔍 Enumeration"></a>🔍 Enumeration</h2><p>I started with nmap:</p>
-<div align="center">
-</div>
-
-<p>We see SMB open.</p>
-]]></content>
-      <categories>
-        <category>CTF</category>
-        <category>Medium</category>
-        <category>HackTheBox</category>
-        <category>Windows</category>
-      </categories>
-      <tags>
-        <tag>SMB</tag>
-        <tag>Silver Ticket</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>HackTheBox - GiveBack (Linux/Medium)</title>
     <url>/2026/02/25/HackTheBox-GiveBack-Linux-Medium/</url>
     <content><![CDATA[<h2 id="🔍-Enumeration"><a href="#🔍-Enumeration" class="headerlink" title="🔍 Enumeration"></a>🔍 Enumeration</h2><p>I started with nmap:</p>
@@ -55,6 +35,26 @@
       </categories>
       <tags>
         <tag>HackTheBox</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>HackTheBox - Signed writeup (Windows/Medium)</title>
+    <url>/2026/02/25/HackTheBox-Signed-writeup-Windows-Medium/</url>
+    <content><![CDATA[<h2 id="🔍-Enumeration"><a href="#🔍-Enumeration" class="headerlink" title="🔍 Enumeration"></a>🔍 Enumeration</h2><p>I started with nmap:</p>
+<div align="center">
+</div>
+
+<p>We see SMB open.</p>
+]]></content>
+      <categories>
+        <category>CTF</category>
+        <category>Medium</category>
+        <category>HackTheBox</category>
+        <category>Windows</category>
+      </categories>
+      <tags>
+        <tag>SMB</tag>
+        <tag>Silver Ticket</tag>
       </tags>
   </entry>
   <entry>

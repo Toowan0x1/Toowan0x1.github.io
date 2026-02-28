@@ -146,6 +146,13 @@
 
   
   <url>
+    <loc>https://toowan0x1.github.io/tags/HackTheBox/</loc>
+    <lastmod>2026-02-28</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://toowan0x1.github.io/tags/SMB/</loc>
     <lastmod>2026-02-28</lastmod>
     <changefreq>weekly</changefreq>
@@ -154,13 +161,6 @@
   
   <url>
     <loc>https://toowan0x1.github.io/tags/Silver-Ticket/</loc>
-    <lastmod>2026-02-28</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://toowan0x1.github.io/tags/HackTheBox/</loc>
     <lastmod>2026-02-28</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>

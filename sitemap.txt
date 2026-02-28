@@ -14,9 +14,9 @@ https://toowan0x1.github.io/2026/02/26/Vulnlab-Breach/
 https://toowan0x1.github.io/2026/02/25/HackTheBox-Signed-writeup-Windows-Medium/
 https://toowan0x1.github.io/2026/02/28/hello-world/
 https://toowan0x1.github.io/
+https://toowan0x1.github.io/tags/HackTheBox/
 https://toowan0x1.github.io/tags/SMB/
 https://toowan0x1.github.io/tags/Silver-Ticket/
-https://toowan0x1.github.io/tags/HackTheBox/
 https://toowan0x1.github.io/categories/CTF/
 https://toowan0x1.github.io/categories/CTF/Medium/
 https://toowan0x1.github.io/categories/CTF/Medium/HackTheBox/
