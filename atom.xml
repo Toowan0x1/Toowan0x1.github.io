@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <author>
+    <name>Toowan0x1</name>
+  </author>
+  <generator uri="https://hexo.io/">Hexo</generator>
+  <id>https://toowan0x1.github.io/</id>
+  <link href="https://toowan0x1.github.io/" rel="alternate"/>
+  <link href="https://toowan0x1.github.io/atom.xml" rel="self"/>
+  <rights>All rights reserved 2026, Toowan0x1</rights>
+  <title>Toowan0x1</title>
+  <updated>2026-02-25T21:28:28.862Z</updated>
+  <entry>
+    <author>
+      <name>Toowan0x1</name>
+    </author>
+    <content>
+      <![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo new <span class="hljs-string">&quot;My New Post&quot;</span><br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo server<br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo generate<br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo deploy<br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>]]>
+    </content>
+    <id>https://toowan0x1.github.io/2026/02/28/hello-world/</id>
+    <link href="https://toowan0x1.github.io/2026/02/28/hello-world/"/>
+    <published>2026-02-28T02:33:58.194Z</published>
+    <summary>
+      <![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for]]>
+    </summary>
+    <title>Hello World</title>
+    <updated>2026-02-25T21:28:28.862Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>Toowan0x1</name>
+    </author>
+    <id>https://toowan0x1.github.io/2026/02/26/HackTheBox-Breach-Windows-Medium/</id>
+    <link href="https://toowan0x1.github.io/2026/02/26/HackTheBox-Breach-Windows-Medium/"/>
+    <published>2026-02-26T01:25:03.000Z</published>
+    <title>HackTheBox - Breach (Windows/Medium)</title>
+    <updated>2026-02-26T01:25:03.087Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>Toowan0x1</name>
+    </author>
+    <id>https://toowan0x1.github.io/2026/02/26/HackTheBox-Forest-Windows-Easy/</id>
+    <link href="https://toowan0x1.github.io/2026/02/26/HackTheBox-Forest-Windows-Easy/"/>
+    <published>2026-02-26T01:24:35.000Z</published>
+    <title>HackTheBox - Forest (Windows/Easy)</title>
+    <updated>2026-02-26T01:24:35.343Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>Toowan0x1</name>
+    </author>
+    <id>https://toowan0x1.github.io/2026/02/26/HackTheBox-WingData-Linux-Easy/</id>
+    <link href="https://toowan0x1.github.io/2026/02/26/HackTheBox-WingData-Linux-Easy/"/>
+    <published>2026-02-26T01:23:41.000Z</published>
+    <title>HackTheBox - WingData (Linux/Easy)</title>
+    <updated>2026-02-26T01:23:41.965Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>Toowan0x1</name>
+    </author>
+    <id>https://toowan0x1.github.io/2026/02/26/Vulnlab-Breach/</id>
+    <link href="https://toowan0x1.github.io/2026/02/26/Vulnlab-Breach/"/>
+    <published>2026-02-26T01:21:57.000Z</published>
+    <title>Vulnlab - Breach</title>
+    <updated>2026-02-26T01:21:57.028Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>Toowan0x1</name>
+    </author>
+    <id>https://toowan0x1.github.io/2026/02/26/HackTheBox-Soulmate-Linux-Easy/</id>
+    <link href="https://toowan0x1.github.io/2026/02/26/HackTheBox-Soulmate-Linux-Easy/"/>
+    <published>2026-02-26T01:21:01.000Z</published>
+    <title>HackTheBox - Soulmate (Linux/Easy)</title>
+    <updated>2026-02-26T02:13:37.448Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>Toowan0x1</name>
+    </author>
+    <category term="CTF" scheme="https://toowan0x1.github.io/categories/CTF/"/>
+    <category term="HackTheBox" scheme="https://toowan0x1.github.io/tags/HackTheBox/"/>
+    <content>
+      <![CDATA[<h2 id="🔍-Enumeration"><a href="#🔍-Enumeration" class="headerlink" title="🔍 Enumeration"></a>🔍 Enumeration</h2><p>I started with nmap:</p><pre> ```php <?php echo "Hello World!"; ?> ``` ```python print("Hello World!") ``` ```bash echo "Hello World!" ``` </pre><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span> <span class="hljs-keyword">echo</span> <span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;CMD&#x27;</span>]; <span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs bash">➜  tools git <span class="hljs-built_in">clone</span> https://github.com/Pennyw0rth/NetExec<br>➜  tools <span class="hljs-built_in">cd</span> NetExec<br>➜  NetExec git:(main) ✗ python3 -m pipx install . --force<br>Installing to existing venv <span class="hljs-string">&#x27;netexec&#x27;</span><br>  installed package netexec 1.4.0+1009.3d407b47, installed using Python 3.12.3<br>  These apps are now globally available<br>    - NetExec<br>    - netexec<br>    - nxc<br>    - nxcdb<br><span class="hljs-keyword">done</span>! <br><br>➜  NetExec git:(main) ✗ nxc --version<br>1.4.0 - SmoothOperator - 3d407b47 - 1009<br></code></pre></td></tr></table></figure><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs bash">babywyrm@giveback:/dev/shm/exploit$ <span class="hljs-built_in">ls</span><br>alpine.tar<br><br>babywyrm@giveback:/dev/shm/exploit$ <span class="hljs-built_in">mkdir</span> rootfs<br>babywyrm@giveback:/dev/shm/exploit$ tar -xvf alpine.tar -C rootfs (slient)<br>babywyrm@giveback:/dev/shm/exploit$ <span class="hljs-built_in">ls</span> -la rootfs/<br>total 0<br>drwxrwxr-x 19 babywyrm babywyrm  400 Feb 24 12:50 .<br>drwxrwxr-x  3 babywyrm babywyrm  100 Feb 24 15:04 ..<br>-rwxr-xr-x  1 babywyrm babywyrm    0 Feb 24 12:45 .dockerenv<br>drwxr-xr-x  2 babywyrm babywyrm 1680 Jan 27 21:19 bin<br>drwxr-xr-x  4 babywyrm babywyrm  100 Feb 24 12:45 dev<br>drwxr-xr-x 17 babywyrm babywyrm  760 Feb 24 12:45 etc<br>drwxr-xr-x  2 babywyrm babywyrm   40 Jan 27 21:19 home<br>drwxr-xr-x  6 babywyrm babywyrm  160 Jan 27 21:19 lib<br>drwxr-xr-x  5 babywyrm babywyrm  100 Jan 27 21:19 media<br>drwxr-xr-x  2 babywyrm babywyrm   40 Jan 27 21:19 mnt<br>drwxr-xr-x  2 babywyrm babywyrm   40 Jan 27 21:19 opt<br>drwxr-xr-x  2 babywyrm babywyrm   40 Jan 27 21:19 proc<br>drwx------  2 babywyrm babywyrm   40 Jan 27 21:19 root<br>drwxr-xr-x  3 babywyrm babywyrm   60 Jan 27 21:19 run<br>drwxr-xr-x  2 babywyrm babywyrm 1280 Jan 27 21:19 sbin<br>drwxr-xr-x  2 babywyrm babywyrm   40 Jan 27 21:19 srv<br>drwxr-xr-x  2 babywyrm babywyrm   40 Jan 27 21:19 sys<br>drwxrwxr-x  2 babywyrm babywyrm   40 Jan 27 21:19 tmp<br>drwxr-xr-x  7 babywyrm babywyrm  140 Jan 27 21:19 usr<br>drwxr-xr-x 11 babywyrm babywyrm  260 Jan 27 21:19 var<br></code></pre></td></tr></table></figure><img src="/2026/02/25/HackTheBox-GiveBack-Linux-Medium/htb-giveback.png" class="" title="Nmap Scan width&#x3D;700"><div align="center">  <img src="htb-giveback.png" width="700"></div><p>We see SMB open.</p>]]>
+    </content>
+    <id>https://toowan0x1.github.io/2026/02/25/HackTheBox-GiveBack-Linux-Medium/</id>
+    <link href="https://toowan0x1.github.io/2026/02/25/HackTheBox-GiveBack-Linux-Medium/"/>
+    <published>2026-02-25T23:04:08.000Z</published>
+    <summary>
+      <![CDATA[<h2 id="🔍-Enumeration"><a href="#🔍-Enumeration" class="headerlink" title="🔍 Enumeration"></a>🔍 Enumeration</h2><p>I started with nmap:</]]>
+    </summary>
+    <title>HackTheBox - GiveBack (Linux/Medium)</title>
+    <updated>2026-02-27T17:19:31.170Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>Toowan0x1</name>
+    </author>
+    <category term="CTF" scheme="https://toowan0x1.github.io/categories/CTF/"/>
+    <category term="Medium" scheme="https://toowan0x1.github.io/categories/CTF/Medium/"/>
+    <category term="HackTheBox" scheme="https://toowan0x1.github.io/categories/CTF/Medium/HackTheBox/"/>
+    <category term="Windows" scheme="https://toowan0x1.github.io/categories/CTF/Medium/HackTheBox/Windows/"/>
+    <category term="SMB" scheme="https://toowan0x1.github.io/tags/SMB/"/>
+    <category term="Silver Ticket" scheme="https://toowan0x1.github.io/tags/Silver-Ticket/"/>
+    <content>
+      <![CDATA[<h2 id="🔍-Enumeration"><a href="#🔍-Enumeration" class="headerlink" title="🔍 Enumeration"></a>🔍 Enumeration</h2><p>I started with nmap:</p><div align="center"></div><p>We see SMB open.</p>]]>
+    </content>
+    <id>https://toowan0x1.github.io/2026/02/25/HackTheBox-Signed-writeup-Windows-Medium/</id>
+    <link href="https://toowan0x1.github.io/2026/02/25/HackTheBox-Signed-writeup-Windows-Medium/"/>
+    <published>2026-02-25T22:57:20.000Z</published>
+    <summary>
+      <![CDATA[<h2 id="🔍-Enumeration"><a href="#🔍-Enumeration" class="headerlink" title="🔍 Enumeration"></a>🔍 Enumeration</h2><p>I started with nmap:</]]>
+    </summary>
+    <title>HackTheBox - Signed writeup (Windows/Medium)</title>
+    <updated>2026-02-26T01:11:12.752Z</updated>
+  </entry>
+</feed>
