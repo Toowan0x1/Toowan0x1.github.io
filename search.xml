@@ -1,34 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>HackTheBox - Breach (Windows/Medium)</title>
-    <url>/2026/02/26/HackTheBox-Breach-Windows-Medium/</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
     <title>HackTheBox - Forest (Windows/Easy)</title>
     <url>/2026/02/26/HackTheBox-Forest-Windows-Easy/</url>
     <content><![CDATA[]]></content>
   </entry>
   <entry>
+    <title>HackTheBox - Breach (Windows/Medium)</title>
+    <url>/2026/02/26/HackTheBox-Breach-Windows-Medium/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
     <title>HackTheBox - GiveBack (Linux/Medium)</title>
     <url>/2026/02/25/HackTheBox-GiveBack-Linux-Medium/</url>
-    <content><![CDATA[<h2 id="🔍-Enumeration"><a href="#🔍-Enumeration" class="headerlink" title="🔍 Enumeration"></a>🔍 Enumeration</h2><p>I started with nmap:</p>
-<pre> ```php <?php echo "Hello World!"; ?> ``` ```python print("Hello World!") ``` ```bash echo "Hello World!" ``` </pre>
+    <content><![CDATA[<h2 id="Enumeration"><a href="#Enumeration" class="headerlink" title="Enumeration"></a>Enumeration</h2><figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">nmap -A<br></code></pre></td></tr></table></figure>
 
-<figure class="highlight php"><table><tr><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span> <span class="hljs-keyword">echo</span> <span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;CMD&#x27;</span>]; <span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
-
-<figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">➜  tools git <span class="hljs-built_in">clone</span> https://github.com/Pennyw0rth/NetExec<br>➜  tools <span class="hljs-built_in">cd</span> NetExec<br>➜  NetExec git:(main) ✗ python3 -m pipx install . --force<br>Installing to existing venv <span class="hljs-string">&#x27;netexec&#x27;</span><br>  installed package netexec 1.4.0+1009.3d407b47, installed using Python 3.12.3<br>  These apps are now globally available<br>    - NetExec<br>    - netexec<br>    - nxc<br>    - nxcdb<br><span class="hljs-keyword">done</span>! <br><br>➜  NetExec git:(main) ✗ nxc --version<br>1.4.0 - SmoothOperator - 3d407b47 - 1009<br></code></pre></td></tr></table></figure>
-
-<figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">babywyrm@giveback:/dev/shm/exploit$ <span class="hljs-built_in">ls</span><br>alpine.tar<br><br>babywyrm@giveback:/dev/shm/exploit$ <span class="hljs-built_in">mkdir</span> rootfs<br>babywyrm@giveback:/dev/shm/exploit$ tar -xvf alpine.tar -C rootfs (slient)<br>babywyrm@giveback:/dev/shm/exploit$ <span class="hljs-built_in">ls</span> -la rootfs/<br>total 0<br>drwxrwxr-x 19 babywyrm babywyrm  400 Feb 24 12:50 .<br>drwxrwxr-x  3 babywyrm babywyrm  100 Feb 24 15:04 ..<br>-rwxr-xr-x  1 babywyrm babywyrm    0 Feb 24 12:45 .dockerenv<br>drwxr-xr-x  2 babywyrm babywyrm 1680 Jan 27 21:19 bin<br>drwxr-xr-x  4 babywyrm babywyrm  100 Feb 24 12:45 dev<br>drwxr-xr-x 17 babywyrm babywyrm  760 Feb 24 12:45 etc<br>drwxr-xr-x  2 babywyrm babywyrm   40 Jan 27 21:19 home<br>drwxr-xr-x  6 babywyrm babywyrm  160 Jan 27 21:19 lib<br>drwxr-xr-x  5 babywyrm babywyrm  100 Jan 27 21:19 media<br>drwxr-xr-x  2 babywyrm babywyrm   40 Jan 27 21:19 mnt<br>drwxr-xr-x  2 babywyrm babywyrm   40 Jan 27 21:19 opt<br>drwxr-xr-x  2 babywyrm babywyrm   40 Jan 27 21:19 proc<br>drwx------  2 babywyrm babywyrm   40 Jan 27 21:19 root<br>drwxr-xr-x  3 babywyrm babywyrm   60 Jan 27 21:19 run<br>drwxr-xr-x  2 babywyrm babywyrm 1280 Jan 27 21:19 sbin<br>drwxr-xr-x  2 babywyrm babywyrm   40 Jan 27 21:19 srv<br>drwxr-xr-x  2 babywyrm babywyrm   40 Jan 27 21:19 sys<br>drwxrwxr-x  2 babywyrm babywyrm   40 Jan 27 21:19 tmp<br>drwxr-xr-x  7 babywyrm babywyrm  140 Jan 27 21:19 usr<br>drwxr-xr-x 11 babywyrm babywyrm  260 Jan 27 21:19 var<br></code></pre></td></tr></table></figure>
+<h2 id="Privilege-Escalation-Exploit-runc"><a href="#Privilege-Escalation-Exploit-runc" class="headerlink" title="Privilege Escalation: Exploit runc"></a>Privilege Escalation: Exploit runc</h2><figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">babywyrm@giveback:/dev/shm/exploit$ <span class="hljs-built_in">ls</span><br>alpine.tar<br><br>babywyrm@giveback:/dev/shm/exploit$ <span class="hljs-built_in">mkdir</span> rootfs<br>babywyrm@giveback:/dev/shm/exploit$ tar -xvf alpine.tar -C rootfs (slient)<br>babywyrm@giveback:/dev/shm/exploit$ <span class="hljs-built_in">ls</span> -la rootfs/<br>total 0<br>drwxrwxr-x 19 babywyrm babywyrm  400 Feb 24 12:50 .<br>drwxrwxr-x  3 babywyrm babywyrm  100 Feb 24 15:04 ..<br>-rwxr-xr-x  1 babywyrm babywyrm    0 Feb 24 12:45 .dockerenv<br>drwxr-xr-x  2 babywyrm babywyrm 1680 Jan 27 21:19 bin<br>drwxr-xr-x  4 babywyrm babywyrm  100 Feb 24 12:45 dev<br>drwxr-xr-x 17 babywyrm babywyrm  760 Feb 24 12:45 etc<br>drwxr-xr-x  2 babywyrm babywyrm   40 Jan 27 21:19 home<br>drwxr-xr-x  6 babywyrm babywyrm  160 Jan 27 21:19 lib<br>drwxr-xr-x  5 babywyrm babywyrm  100 Jan 27 21:19 media<br>drwxr-xr-x  2 babywyrm babywyrm   40 Jan 27 21:19 mnt<br>drwxr-xr-x  2 babywyrm babywyrm   40 Jan 27 21:19 opt<br>drwxr-xr-x  2 babywyrm babywyrm   40 Jan 27 21:19 proc<br>drwx------  2 babywyrm babywyrm   40 Jan 27 21:19 root<br>drwxr-xr-x  3 babywyrm babywyrm   60 Jan 27 21:19 run<br>drwxr-xr-x  2 babywyrm babywyrm 1280 Jan 27 21:19 sbin<br>drwxr-xr-x  2 babywyrm babywyrm   40 Jan 27 21:19 srv<br>drwxr-xr-x  2 babywyrm babywyrm   40 Jan 27 21:19 sys<br>drwxrwxr-x  2 babywyrm babywyrm   40 Jan 27 21:19 tmp<br>drwxr-xr-x  7 babywyrm babywyrm  140 Jan 27 21:19 usr<br>drwxr-xr-x 11 babywyrm babywyrm  260 Jan 27 21:19 var<br></code></pre></td></tr></table></figure>
 
 <img src="/2026/02/25/HackTheBox-GiveBack-Linux-Medium/htb-giveback.png" class="" title="Nmap Scan width&#x3D;700">
 
-<div align="center">
-  <img src="htb-giveback.png" width="700">
-</div>
 
-<p>We see SMB open.</p>
 ]]></content>
       <categories>
         <category>CTF</category>
@@ -40,12 +31,7 @@
   <entry>
     <title>HackTheBox - Signed writeup (Windows/Medium)</title>
     <url>/2026/02/25/HackTheBox-Signed-writeup-Windows-Medium/</url>
-    <content><![CDATA[<h2 id="🔍-Enumeration"><a href="#🔍-Enumeration" class="headerlink" title="🔍 Enumeration"></a>🔍 Enumeration</h2><p>I started with nmap:</p>
-<div align="center">
-</div>
-
-<p>We see SMB open.</p>
-]]></content>
+    <content><![CDATA[]]></content>
       <categories>
         <category>CTF</category>
         <category>Medium</category>
