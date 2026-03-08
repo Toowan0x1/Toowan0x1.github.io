@@ -111,7 +111,7 @@
 <li>It relies on existing gadget chains to trigger code execution when deserialized.</li>
 <li>It embeds a command string inside serialized object</li>
 </ul>
-<p>See: <a href="https://github.com/pwntester/ysoserial.net">https://github.com/pwntester/ysoserial.net</a></p>
+<p>Tool repository: <a href="https://github.com/pwntester/ysoserial.net">https://github.com/pwntester/ysoserial.net</a></p>
 <h3 id="Exploitation-Attack-flow"><a href="#Exploitation-Attack-flow" class="headerlink" title="Exploitation (Attack flow)"></a>Exploitation (Attack flow)</h3><p>During deserialization:</p>
 <ol>
 <li>The application reconstructs objects from user input</li>
@@ -292,6 +292,18 @@
 </tr>
 </tbody></table>
 ]]></content>
+      <categories>
+        <category>Web</category>
+        <category>Deserialization</category>
+      </categories>
+      <tags>
+        <tag>Insecure Deserialization</tag>
+        <tag>.NET</tag>
+        <tag>ASP.NET</tag>
+        <tag>Gadget Chains</tag>
+        <tag>ysoserial.net</tag>
+        <tag>BinaryFormatter</tag>
+      </tags>
   </entry>
   <entry>
     <title>HackTheBox - Breach (Windows/Medium)</title>

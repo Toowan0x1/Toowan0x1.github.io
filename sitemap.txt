@@ -16,9 +16,17 @@ https://toowan0x1.github.io/categories/index.html
 https://toowan0x1.github.io/search-remove/index.html
 https://toowan0x1.github.io/tags/index.html
 https://toowan0x1.github.io/
+https://toowan0x1.github.io/tags/Insecure-Deserialization/
+https://toowan0x1.github.io/tags/NET/
+https://toowan0x1.github.io/tags/ASP-NET/
+https://toowan0x1.github.io/tags/Gadget-Chains/
+https://toowan0x1.github.io/tags/ysoserial-net/
+https://toowan0x1.github.io/tags/BinaryFormatter/
 https://toowan0x1.github.io/tags/HackTheBox/
 https://toowan0x1.github.io/tags/SMB/
 https://toowan0x1.github.io/tags/Silver-Ticket/
+https://toowan0x1.github.io/categories/Web/
+https://toowan0x1.github.io/categories/Web/Deserialization/
 https://toowan0x1.github.io/categories/CTF/
 https://toowan0x1.github.io/categories/CTF/Medium/
 https://toowan0x1.github.io/categories/CTF/Medium/HackTheBox/
