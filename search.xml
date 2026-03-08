@@ -260,17 +260,47 @@
 <td>Java</td>
 <td>Java deserialization</td>
 </tr>
+<tr>
+<td>Monitors</td>
+<td>Java</td>
+<td>Java Deserialization, more ..</td>
+</tr>
+<tr>
+<td>Tenet</td>
+<td>PHP</td>
+<td>Wordpress, PHP Deserialization, Race Condition Vulnerability, Inotify</td>
+</tr>
+<tr>
+<td>Cereal</td>
+<td>.NET</td>
+<td>.NET code analysis, Deserialzation, XSS, JWT, GraphQL, SSRF</td>
+</tr>
+<tr>
+<td>Feline</td>
+<td>Java</td>
+<td>Java Deserialization, Tomcat, CVE(SaltStack), Docker Engine API</td>
+</tr>
+<tr>
+<td>Travel</td>
+<td>PHP</td>
+<td>Wordpress, SSRF, PHP Deserialization, Memcached, LDAP</td>
+</tr>
+<tr>
+<td>Player</td>
+<td>PHP</td>
+<td>JWT, FFmpeg Vulnerability, CVE (SSH), PHP Deserialization Vulnerability</td>
+</tr>
 </tbody></table>
 ]]></content>
   </entry>
   <entry>
-    <title>HackTheBox - Forest (Windows/Easy)</title>
-    <url>/HackTheBox-Forest-Windows-Easy/</url>
+    <title>HackTheBox - Breach (Windows/Medium)</title>
+    <url>/HackTheBox-Breach-Windows-Medium/</url>
     <content><![CDATA[]]></content>
   </entry>
   <entry>
-    <title>HackTheBox - Breach (Windows/Medium)</title>
-    <url>/HackTheBox-Breach-Windows-Medium/</url>
+    <title>HackTheBox - Forest (Windows/Easy)</title>
+    <url>/HackTheBox-Forest-Windows-Easy/</url>
     <content><![CDATA[]]></content>
   </entry>
   <entry>
