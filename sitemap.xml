@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://toowan0x1.github.io/2026/03/08/Attacking-NET-Deserialization/</loc>
+    
+    <lastmod>2026-03-08</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://toowan0x1.github.io/about/index.html</loc>
     
     <lastmod>2026-03-05</lastmod>
@@ -139,7 +148,7 @@
 
   <url>
     <loc>https://toowan0x1.github.io/</loc>
-    <lastmod>2026-03-05</lastmod>
+    <lastmod>2026-03-08</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -147,21 +156,21 @@
   
   <url>
     <loc>https://toowan0x1.github.io/tags/HackTheBox/</loc>
-    <lastmod>2026-03-05</lastmod>
+    <lastmod>2026-03-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://toowan0x1.github.io/tags/SMB/</loc>
-    <lastmod>2026-03-05</lastmod>
+    <lastmod>2026-03-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://toowan0x1.github.io/tags/Silver-Ticket/</loc>
-    <lastmod>2026-03-05</lastmod>
+    <lastmod>2026-03-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
@@ -170,28 +179,28 @@
   
   <url>
     <loc>https://toowan0x1.github.io/categories/CTF/</loc>
-    <lastmod>2026-03-05</lastmod>
+    <lastmod>2026-03-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://toowan0x1.github.io/categories/CTF/Medium/</loc>
-    <lastmod>2026-03-05</lastmod>
+    <lastmod>2026-03-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://toowan0x1.github.io/categories/CTF/Medium/HackTheBox/</loc>
-    <lastmod>2026-03-05</lastmod>
+    <lastmod>2026-03-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://toowan0x1.github.io/categories/CTF/Medium/HackTheBox/Windows/</loc>
-    <lastmod>2026-03-05</lastmod>
+    <lastmod>2026-03-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>

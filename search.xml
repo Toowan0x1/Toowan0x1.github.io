@@ -1,6 +1,185 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Attacking .NET Deserialization</title>
+    <url>/2026/03/08/Attacking-NET-Deserialization/</url>
+    <content><![CDATA[<h2 id="Insecure-Deserialization-in-NET-–-Definition-Key-Concepts-Tools-and-Exploitation-Flow"><a href="#Insecure-Deserialization-in-NET-–-Definition-Key-Concepts-Tools-and-Exploitation-Flow" class="headerlink" title="Insecure Deserialization in .NET – Definition, Key Concepts, Tools, and Exploitation Flow"></a>Insecure Deserialization in .NET – Definition, Key Concepts, Tools, and Exploitation Flow</h2><h3 id="Definition"><a href="#Definition" class="headerlink" title="Definition"></a>Definition</h3><p>This vulnerability occurs occurs when an application deserializes untrusted data without proper validation. -&gt; when the target application uses vulnerable libraries, framework classes, or built-in platform classes that can be abused during deserialization.</p>
+<p>During deserialization, the application reconstructs objects from serialized data. In some cases, special methods (such as constructors or deserialization callbacks like OnDeserialized) may be automatically executed.</p>
+<p>If an attacker can control the serialized data, they may craft a malicious object that triggers unintended code execution during the deserialization process.</p>
+<p>A vulnerable class that can be abused during deserialization is called a <strong>gadget</strong>.</p>
+<p>When multiple gadgets are chained together so their method calls lead to arbitrary code execution, the sequence is known as a <strong>gadget chain</strong>.</p>
+<h3 id="Key-Concepts"><a href="#Key-Concepts" class="headerlink" title="Key Concepts"></a>Key Concepts</h3><ul>
+<li>Gadget and Gadget Chain</li>
+<li>Serializers &#x2F; Formatters</li>
+</ul>
+<h4 id="Gadget"><a href="#Gadget" class="headerlink" title="Gadget:"></a>Gadget:</h4><ul>
+<li>A legitimate framework classe that can be abused during deserialization to execute unintended behavior.</li>
+</ul>
+<h4 id="Gadget-chain"><a href="#Gadget-chain" class="headerlink" title="Gadget chain:"></a>Gadget chain:</h4><ul>
+<li>One gadget may not give RCE directly.</li>
+<li>So attackers chain multiple gadgets:</li>
+<li>Object A → triggers B → calls C → executes Process.Start()</li>
+<li>Tools like <a href="https://github.com/pwntester/ysoserial.net">ysoserial.net</a> generate these chains automatically.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Gadget</td>
+<td>A specific class (or chain of classes) inside a library that can be abused</td>
+</tr>
+<tr>
+<td>Gadget chain</td>
+<td>Multiple gadgets combined to reach RCE</td>
+</tr>
+</tbody></table>
+<p><strong><strong>Where do gadgets come from</strong></strong></p>
+<p>They usually come from:</p>
+<ul>
+<li>Third-party libraries</li>
+<li>Framework classes</li>
+<li>Built-in platform classes</li>
+</ul>
+<p>For example:</p>
+<ul>
+<li>commons-collections (Java)</li>
+<li>.NET framework classes</li>
+<li>ASP.NET components</li>
+<li>Logging libraries</li>
+</ul>
+<h3 id="Tools"><a href="#Tools" class="headerlink" title="Tools"></a>Tools</h3><h4 id="ysoserial-net"><a href="#ysoserial-net" class="headerlink" title="ysoserial.net"></a>ysoserial.net</h4><p>A tool used to generate malicious serialized payloads for testing .NET deserialization vulnerabilities.</p>
+<ul>
+<li>Contains a collection of known <strong>gadget chains</strong> (e.g., <code>TypeConfuseDelegate</code>, <code>ActivitySurrogateSelector</code>, <code>ObjectDataProvider</code>).</li>
+<li>Generates serialized objects that embed a command inside the payload.</li>
+<li>Used for <strong>security testing and research</strong> of insecure deserialization.</li>
+</ul>
+<p>Key points:</p>
+<ul>
+<li>It generates payloads</li>
+<li>It relies on existing gadget chains</li>
+<li>It relies on existing gadget chains to trigger code execution when deserialized.</li>
+<li>It embeds a command string inside serialized object</li>
+</ul>
+<p>See: <a href="https://github.com/pwntester/ysoserial.net">https://github.com/pwntester/ysoserial.net</a></p>
+<h3 id="Exploitation-Exploitation-Flow-Attack-flow"><a href="#Exploitation-Exploitation-Flow-Attack-flow" class="headerlink" title="Exploitation (Exploitation Flow &#x2F; Attack flow)"></a>Exploitation (Exploitation Flow &#x2F; Attack flow)</h3><h4 id="During-the-deserialization-process"><a href="#During-the-deserialization-process" class="headerlink" title="During the deserialization process:"></a>During the deserialization process:</h4><ul>
+<li>The application recreates objects from user input</li>
+<li>Some objects execute code automatically during construction &#x2F; property setting</li>
+<li>That behavior can be abused</li>
+<li>If attacker controls object type + data → gadget executes something dangerous.</li>
+</ul>
+<h4 id="Example"><a href="#Example" class="headerlink" title="Example:"></a>Example:</h4><p>A gadget might:</p>
+<ul>
+<li>Accept method name</li>
+<li>Accept parameters</li>
+<li>Invoke method during deserialization</li>
+<li>If attacker sets <code>Method = &quot;Start&quot; Parameter = &quot;cmd.exe&quot;</code></li>
+<li>Boom → RCE.</li>
+</ul>
+<h4 id="Why-do-gadgets-exist-in-large-frameworks"><a href="#Why-do-gadgets-exist-in-large-frameworks" class="headerlink" title="Why do gadgets exist in large frameworks?"></a>Why do gadgets exist in large frameworks?</h4><p>Most large frameworks contain gadgets and that because:</p>
+<ul>
+<li>They were not designed with deserialization attacks in mind</li>
+<li>Many classes have dynamic behaviors</li>
+</ul>
+<h4 id="When-does-this-attack-become-possible"><a href="#When-does-this-attack-become-possible" class="headerlink" title="When does this attack become possible?"></a>When does this attack become possible?</h4><p>An insecure deserialization attack becomes possible when:</p>
+<ul>
+<li>A <strong>gadget</strong> exists</li>
+<li>Gadget executes something during deserialization</li>
+<li>That something can be influenced by attacker</li>
+</ul>
+<p>In old .NET Framework, gadgets such as <code>ObjectDataProvider</code>, <code>TypeConfuseDelegate</code>, <code>WindowsIdentity</code> were commonly abused.</p>
+<p>In modern .NET 6:</p>
+<ul>
+<li>Exploitation is generally harder</li>
+<li>Requires <strong>third-party libraries</strong></li>
+<li>Or the presence of <strong>custom application code</strong> that performs unsafe deserialization</li>
+</ul>
+<h3 id="Exploitation-Conditions-Prerequisites"><a href="#Exploitation-Conditions-Prerequisites" class="headerlink" title="Exploitation Conditions &amp; Prerequisites"></a>Exploitation Conditions &amp; Prerequisites</h3><p><strong>Exploit prerequisites:</strong></p>
+<ul>
+<li>A vulnerable deserialization endpoint</li>
+<li>The right gadget chain matching the target’s libraries</li>
+</ul>
+<h2 id="Preparing-our-ASP-NET-Lab-to-Test-Deserialization-Attacks-on-NET"><a href="#Preparing-our-ASP-NET-Lab-to-Test-Deserialization-Attacks-on-NET" class="headerlink" title="Preparing our ASP.NET Lab to Test Deserialization Attacks on .NET"></a>Preparing our ASP.NET Lab to Test Deserialization Attacks on .NET</h2><p>ASP.NET is a web framework developed by Microsoft. It is used to build, Web applications, APIs, Enterprise systems, and Internal company portals.</p>
+<h3 id="Installing-NET-SDK-on-linux"><a href="#Installing-NET-SDK-on-linux" class="headerlink" title="Installing .NET SDK on linux"></a>Installing .NET SDK on linux</h3><p>First you have to update your system with <code>sudo apt update</code> and <code>sudo apt upgrade</code>.</p>
+<p>Install the SDK:</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> apt install -y dotnet-sdk-6.0<br></code></pre></td></tr></table></figure>
+
+<p>Verify installation:</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">dotnet --version<br></code></pre></td></tr></table></figure>
+
+<h3 id="Create-a-Test-ASP-NET-Web-App"><a href="#Create-a-Test-ASP-NET-Web-App" class="headerlink" title="Create a Test ASP.NET Web App"></a>Create a Test ASP.NET Web App</h3><p>Create a project folder:</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">mkdir</span> dotnet-test<br><span class="hljs-built_in">cd</span> dotnet-test<br></code></pre></td></tr></table></figure>
+
+<p>Create a new web app:</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">dotnet new webapp<br></code></pre></td></tr></table></figure>
+<p>This generates an ASP.NET Core Razor application.</p>
+<h3 id="Run-the-NET-webserver-localy"><a href="#Run-the-NET-webserver-localy" class="headerlink" title="Run the .NET webserver localy:"></a>Run the .NET webserver localy:</h3><figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">dotnet run<br></code></pre></td></tr></table></figure>
+
+<p>You should see something like:</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">Now listening on: http://localhost:5000<br></code></pre></td></tr></table></figure>
+
+<p>Open browser <code>http://localhost:5000</code> or testing locally from Burpsuite, we can run the server like that:</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">dotnet run --urls=http://0.0.0.0:5000<br></code></pre></td></tr></table></figure>
+<p>Then intercept traffic using burpsuite.</p>
+<p>Now we can create simple vulnerable endpoints in ASP.NET and test using:</p>
+<ul>
+<li>Newtonsoft.Json</li>
+<li><a href="https://learn.microsoft.com/en-us/dotnet/api/system.runtime.serialization.formatters.binary.binaryformatter?view=net-10.0">BinaryFormatter</a></li>
+<li><a href="https://learn.microsoft.com/en-us/dotnet/api/system.runtime.serialization.datacontractserializer?view=net-10.0">DataContractSerializer</a></li>
+<li><a href="https://learn.microsoft.com/en-us/dotnet/api/system.web.ui.objectstateformatter?view=netframework-4.8.1">ObjectStateFormatter</a></li>
+</ul>
+<h3 id="Create-minimal-ASP-NET-web-app"><a href="#Create-minimal-ASP-NET-web-app" class="headerlink" title="Create minimal ASP.NET web app"></a>Create minimal ASP.NET web app</h3><p>Create template for a minimal ASP.NET web application (no Razor pages, just a simple HTTP server):</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">dotnet new web -n &lt;dotnet_appName&gt;<br></code></pre></td></tr></table></figure>
+
+<h3 id="Project-Structure-Overview"><a href="#Project-Structure-Overview" class="headerlink" title="Project Structure - Overview"></a>Project Structure - Overview</h3><figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">$ <span class="hljs-built_in">ls</span><br>appsettings.Development.json<br>appsettings.json<br>obj/<br>Program.cs<br>Properties/<br>webapp.csproj<br></code></pre></td></tr></table></figure>
+<p>Explanation:</p>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Program.cs</td>
+<td>Main application code</td>
+</tr>
+<tr>
+<td>webapp.csproj</td>
+<td>Project configuration</td>
+</tr>
+<tr>
+<td>appsettings.json</td>
+<td>Application settings</td>
+</tr>
+<tr>
+<td>Properties&#x2F;</td>
+<td>launch settings</td>
+</tr>
+<tr>
+<td>obj&#x2F;</td>
+<td>build artifacts</td>
+</tr>
+</tbody></table>
+<h4 id="Viewing-the-main-application-file"><a href="#Viewing-the-main-application-file" class="headerlink" title="Viewing the main application file"></a>Viewing the main application file</h4><p>Program.cs:</p>
+<figure class="highlight cs"><table><tr><td class="code"><pre><code class="hljs cs"><span class="hljs-keyword">var</span> builder = WebApplication.CreateBuilder(<span class="hljs-keyword">args</span>);<br><span class="hljs-keyword">var</span> app = builder.Build();<br><br>app.MapGet(<span class="hljs-string">&quot;/&quot;</span>, () =&gt; <span class="hljs-string">&quot;Hello World!&quot;</span>);<br><br>app.Run();<br></code></pre></td></tr></table></figure>
+
+<p>That’s will:</p>
+<ul>
+<li>Creates an endpoint &#x2F;</li>
+<li>Returns “Hello World!” on that endpoint</li>
+</ul>
+<p>Running the application: <code>dotnet run --urls=http://0.0.0.0:5000</code> and then curl:</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">$ curl http://localhost:5250<br>Hello World!<br></code></pre></td></tr></table></figure>
+
+<p>Now we can create endpoints like <code>/deserialize</code>, <code>/api/test</code>, etc. for testing our <strong>.NET deserialization attacks and web vulnerabilities</strong>.</p>
+<p>We gonna see <strong>a small vulnerable .NET endpoint</strong> I’ll add it to <code>Program.cs</code> to test <strong>insecure deserialization</strong>.</p>
+]]></content>
+  </entry>
+  <entry>
     <title>HackTheBox - Breach (Windows/Medium)</title>
     <url>/2026/02/26/HackTheBox-Breach-Windows-Medium/</url>
     <content><![CDATA[]]></content>
@@ -49,13 +228,13 @@
       </tags>
   </entry>
   <entry>
-    <title>HackTheBox - Soulmate (Linux/Easy)</title>
-    <url>/2026/02/26/HackTheBox-Soulmate-Linux-Easy/</url>
+    <title>HackTheBox - WingData (Linux/Easy)</title>
+    <url>/2026/02/26/HackTheBox-WingData-Linux-Easy/</url>
     <content><![CDATA[]]></content>
   </entry>
   <entry>
-    <title>HackTheBox - WingData (Linux/Easy)</title>
-    <url>/2026/02/26/HackTheBox-WingData-Linux-Easy/</url>
+    <title>HackTheBox - Soulmate (Linux/Easy)</title>
+    <url>/2026/02/26/HackTheBox-Soulmate-Linux-Easy/</url>
     <content><![CDATA[]]></content>
   </entry>
   <entry>
