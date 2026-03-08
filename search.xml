@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>Attacking Insecure Deserialization in .NET [Part-I]</title>
+    <title>Attacking Insecure Deserialization in .NET — Part 2: Formatters and .NET Commons Gadgets</title>
+    <url>/2026/03/08/Attacking-NET-Deserialization-II/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>Attacking Insecure Deserialization in .NET — Part 1: Fundamentals and Lab Setup</title>
     <url>/2026/03/08/Attacking-NET-Deserialization/</url>
-    <content><![CDATA[<!-- ## Attacking Insecure Deserialization in .NET -->
-<h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>This article introduces <strong>Insecure Deserialization attacks in .NET</strong> and explains how attackers abuse gadget chains to achieve remote code execution.</p>
+    <content><![CDATA[<h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>This article introduces <strong>Insecure Deserialization attacks in .NET</strong> and explains how attackers abuse gadget chains to achieve remote code execution.</p>
 <p>We will explore:</p>
 <ul>
 <li>The fundamentals of .NET deserialization</li>
@@ -265,6 +269,11 @@
     <content><![CDATA[]]></content>
   </entry>
   <entry>
+    <title>HackTheBox - Forest (Windows/Easy)</title>
+    <url>/2026/02/26/HackTheBox-Forest-Windows-Easy/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
     <title>HackTheBox - GiveBack (Linux/Medium)</title>
     <url>/2026/02/25/HackTheBox-GiveBack-Linux-Medium/</url>
     <content><![CDATA[<h2 id="Enumeration"><a href="#Enumeration" class="headerlink" title="Enumeration"></a>Enumeration</h2><figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">nmap -A<br></code></pre></td></tr></table></figure>
@@ -283,13 +292,18 @@
       </tags>
   </entry>
   <entry>
-    <title>HackTheBox - Forest (Windows/Easy)</title>
-    <url>/2026/02/26/HackTheBox-Forest-Windows-Easy/</url>
+    <title>HackTheBox - Json (Windows/Medium)</title>
+    <url>/2026/03/04/HackTheBox-Json-Windows-Medium/</url>
     <content><![CDATA[]]></content>
   </entry>
   <entry>
-    <title>HackTheBox - Json (Windows/Medium)</title>
-    <url>/2026/03/04/HackTheBox-Json-Windows-Medium/</url>
+    <title>HackTheBox - Soulmate (Linux/Easy)</title>
+    <url>/2026/02/26/HackTheBox-Soulmate-Linux-Easy/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>HackTheBox - WingData (Linux/Easy)</title>
+    <url>/2026/02/26/HackTheBox-WingData-Linux-Easy/</url>
     <content><![CDATA[]]></content>
   </entry>
   <entry>
@@ -306,16 +320,6 @@
         <tag>SMB</tag>
         <tag>Silver Ticket</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>HackTheBox - Soulmate (Linux/Easy)</title>
-    <url>/2026/02/26/HackTheBox-Soulmate-Linux-Easy/</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
-    <title>HackTheBox - WingData (Linux/Easy)</title>
-    <url>/2026/02/26/HackTheBox-WingData-Linux-Easy/</url>
-    <content><![CDATA[]]></content>
   </entry>
   <entry>
     <title>Vulnlab - Breach</title>
