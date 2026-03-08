@@ -2,12 +2,12 @@
 <search>
   <entry>
     <title>Attacking Insecure Deserialization in .NET — Part 2: Formatters and .NET Commons Gadgets</title>
-    <url>/2026/03/08/Attacking-NET-Deserialization-II/</url>
+    <url>/Attacking-NET-Deserialization-II/</url>
     <content><![CDATA[]]></content>
   </entry>
   <entry>
     <title>Attacking Insecure Deserialization in .NET — Part 1: Fundamentals and Lab Setup</title>
-    <url>/2026/03/08/Attacking-NET-Deserialization/</url>
+    <url>/Attacking-NET-Deserialization/</url>
     <content><![CDATA[<h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>This article introduces <strong>Insecure Deserialization attacks in .NET</strong> and explains how attackers abuse gadget chains to achieve remote code execution.</p>
 <p>We will explore:</p>
 <ul>
@@ -264,23 +264,23 @@
 ]]></content>
   </entry>
   <entry>
-    <title>HackTheBox - Breach (Windows/Medium)</title>
-    <url>/2026/02/26/HackTheBox-Breach-Windows-Medium/</url>
+    <title>HackTheBox - Forest (Windows/Easy)</title>
+    <url>/HackTheBox-Forest-Windows-Easy/</url>
     <content><![CDATA[]]></content>
   </entry>
   <entry>
-    <title>HackTheBox - Forest (Windows/Easy)</title>
-    <url>/2026/02/26/HackTheBox-Forest-Windows-Easy/</url>
+    <title>HackTheBox - Breach (Windows/Medium)</title>
+    <url>/HackTheBox-Breach-Windows-Medium/</url>
     <content><![CDATA[]]></content>
   </entry>
   <entry>
     <title>HackTheBox - GiveBack (Linux/Medium)</title>
-    <url>/2026/02/25/HackTheBox-GiveBack-Linux-Medium/</url>
+    <url>/HackTheBox-GiveBack-Linux-Medium/</url>
     <content><![CDATA[<h2 id="Enumeration"><a href="#Enumeration" class="headerlink" title="Enumeration"></a>Enumeration</h2><figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">nmap -A<br></code></pre></td></tr></table></figure>
 
 <h2 id="Privilege-Escalation-Exploit-runc"><a href="#Privilege-Escalation-Exploit-runc" class="headerlink" title="Privilege Escalation: Exploit runc"></a>Privilege Escalation: Exploit runc</h2><figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">babywyrm@giveback:/dev/shm/exploit$ <span class="hljs-built_in">ls</span><br>alpine.tar<br><br>babywyrm@giveback:/dev/shm/exploit$ <span class="hljs-built_in">mkdir</span> rootfs<br>babywyrm@giveback:/dev/shm/exploit$ tar -xvf alpine.tar -C rootfs (slient)<br>babywyrm@giveback:/dev/shm/exploit$ <span class="hljs-built_in">ls</span> -la rootfs/<br>total 0<br>drwxrwxr-x 19 babywyrm babywyrm  400 Feb 24 12:50 .<br>drwxrwxr-x  3 babywyrm babywyrm  100 Feb 24 15:04 ..<br>-rwxr-xr-x  1 babywyrm babywyrm    0 Feb 24 12:45 .dockerenv<br>drwxr-xr-x  2 babywyrm babywyrm 1680 Jan 27 21:19 bin<br>drwxr-xr-x  4 babywyrm babywyrm  100 Feb 24 12:45 dev<br>drwxr-xr-x 17 babywyrm babywyrm  760 Feb 24 12:45 etc<br>drwxr-xr-x  2 babywyrm babywyrm   40 Jan 27 21:19 home<br>drwxr-xr-x  6 babywyrm babywyrm  160 Jan 27 21:19 lib<br>drwxr-xr-x  5 babywyrm babywyrm  100 Jan 27 21:19 media<br>drwxr-xr-x  2 babywyrm babywyrm   40 Jan 27 21:19 mnt<br>drwxr-xr-x  2 babywyrm babywyrm   40 Jan 27 21:19 opt<br>drwxr-xr-x  2 babywyrm babywyrm   40 Jan 27 21:19 proc<br>drwx------  2 babywyrm babywyrm   40 Jan 27 21:19 root<br>drwxr-xr-x  3 babywyrm babywyrm   60 Jan 27 21:19 run<br>drwxr-xr-x  2 babywyrm babywyrm 1280 Jan 27 21:19 sbin<br>drwxr-xr-x  2 babywyrm babywyrm   40 Jan 27 21:19 srv<br>drwxr-xr-x  2 babywyrm babywyrm   40 Jan 27 21:19 sys<br>drwxrwxr-x  2 babywyrm babywyrm   40 Jan 27 21:19 tmp<br>drwxr-xr-x  7 babywyrm babywyrm  140 Jan 27 21:19 usr<br>drwxr-xr-x 11 babywyrm babywyrm  260 Jan 27 21:19 var<br></code></pre></td></tr></table></figure>
 
-<img src="/2026/02/25/HackTheBox-GiveBack-Linux-Medium/htb-giveback.png" class="" title="Nmap Scan width&#x3D;700">
+<img src="/HackTheBox-GiveBack-Linux-Medium/htb-giveback.png" class="" title="Nmap Scan width&#x3D;700">
 
 
 ]]></content>
@@ -293,22 +293,12 @@
   </entry>
   <entry>
     <title>HackTheBox - Json (Windows/Medium)</title>
-    <url>/2026/03/04/HackTheBox-Json-Windows-Medium/</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
-    <title>HackTheBox - Soulmate (Linux/Easy)</title>
-    <url>/2026/02/26/HackTheBox-Soulmate-Linux-Easy/</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
-    <title>HackTheBox - WingData (Linux/Easy)</title>
-    <url>/2026/02/26/HackTheBox-WingData-Linux-Easy/</url>
+    <url>/HackTheBox-Json-Windows-Medium/</url>
     <content><![CDATA[]]></content>
   </entry>
   <entry>
     <title>HackTheBox - Signed writeup (Windows/Medium)</title>
-    <url>/2026/02/25/HackTheBox-Signed-writeup-Windows-Medium/</url>
+    <url>/HackTheBox-Signed-writeup-Windows-Medium/</url>
     <content><![CDATA[]]></content>
       <categories>
         <category>CTF</category>
@@ -322,8 +312,18 @@
       </tags>
   </entry>
   <entry>
+    <title>HackTheBox - Soulmate (Linux/Easy)</title>
+    <url>/HackTheBox-Soulmate-Linux-Easy/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>HackTheBox - WingData (Linux/Easy)</title>
+    <url>/HackTheBox-WingData-Linux-Easy/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
     <title>Vulnlab - Breach</title>
-    <url>/2026/02/26/Vulnlab-Breach/</url>
+    <url>/Vulnlab-Breach/</url>
     <content><![CDATA[]]></content>
   </entry>
 </search>
