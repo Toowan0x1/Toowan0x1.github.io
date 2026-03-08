@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>HackTheBox - Forest (Windows/Easy)</title>
-    <url>/2026/02/26/HackTheBox-Forest-Windows-Easy/</url>
+    <title>HackTheBox - Breach (Windows/Medium)</title>
+    <url>/2026/02/26/HackTheBox-Breach-Windows-Medium/</url>
     <content><![CDATA[]]></content>
   </entry>
   <entry>
-    <title>HackTheBox - Breach (Windows/Medium)</title>
-    <url>/2026/02/26/HackTheBox-Breach-Windows-Medium/</url>
+    <title>HackTheBox - Forest (Windows/Easy)</title>
+    <url>/2026/02/26/HackTheBox-Forest-Windows-Easy/</url>
     <content><![CDATA[]]></content>
   </entry>
   <entry>
@@ -27,6 +27,11 @@
       <tags>
         <tag>HackTheBox</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>HackTheBox - Json (Windows/Medium)</title>
+    <url>/2026/03/04/HackTheBox-Json-Windows-Medium/</url>
+    <content><![CDATA[]]></content>
   </entry>
   <entry>
     <title>HackTheBox - Signed writeup (Windows/Medium)</title>

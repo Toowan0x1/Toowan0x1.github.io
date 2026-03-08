@@ -1,3 +1,5 @@
+https://toowan0x1.github.io/about/index.html
+https://toowan0x1.github.io/2026/03/04/HackTheBox-Json-Windows-Medium/
 https://toowan0x1.github.io/2026/02/26/HackTheBox-Soulmate-Linux-Easy/
 https://toowan0x1.github.io/2026/02/26/Vulnlab-Breach/
 https://toowan0x1.github.io/2026/02/25/HackTheBox-Signed-writeup-Windows-Medium/
@@ -5,7 +7,6 @@ https://toowan0x1.github.io/2026/02/26/HackTheBox-WingData-Linux-Easy/
 https://toowan0x1.github.io/2026/02/26/HackTheBox-Forest-Windows-Easy/
 https://toowan0x1.github.io/2026/02/26/HackTheBox-Breach-Windows-Medium/
 https://toowan0x1.github.io/2026/02/25/HackTheBox-GiveBack-Linux-Medium/
-https://toowan0x1.github.io/about/index.html
 https://toowan0x1.github.io/404.html
 https://toowan0x1.github.io/projects/index.html
 https://toowan0x1.github.io/archives/index.html
