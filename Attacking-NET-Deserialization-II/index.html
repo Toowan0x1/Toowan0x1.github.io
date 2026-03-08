@@ -1,11 +1,13 @@
-<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Attacking Insecure Deserialization in .NET — Part 2: Formatters and .NET Commons Gadgets | Toowan0x1</title><meta name="author" content="Toowan0x1"><meta name="copyright" content="Toowan0x1"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta property="og:type" content="article">
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Attacking Insecure Deserialization in .NET — Part 2: Formatters and .NET Commons Gadgets | Toowan0x1</title><meta name="author" content="Toowan0x1"><meta name="copyright" content="Toowan0x1"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="In Part 1, we explored the basics of insecure deserialization in .NET and why it is considered a critical vulnerability. In this part, we focus on something every security researcher or .NET develop">
+<meta property="og:type" content="article">
 <meta property="og:title" content="Attacking Insecure Deserialization in .NET — Part 2: Formatters and .NET Commons Gadgets">
 <meta property="og:url" content="https://toowan0x1.github.io/Attacking-NET-Deserialization-II/index.html">
 <meta property="og:site_name" content="Toowan0x1">
+<meta property="og:description" content="In Part 1, we explored the basics of insecure deserialization in .NET and why it is considered a critical vulnerability. In this part, we focus on something every security researcher or .NET develop">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://assets.offsec.tools/tools/ysoserial.net-4799.png">
 <meta property="article:published_time" content="2026-03-08T05:39:28.000Z">
-<meta property="article:modified_time" content="2026-03-08T06:06:12.109Z">
+<meta property="article:modified_time" content="2026-03-08T08:01:36.608Z">
 <meta property="article:author" content="Toowan0x1">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://assets.offsec.tools/tools/ysoserial.net-4799.png"><script type="application/ld+json">{
@@ -15,7 +17,7 @@
   "url": "https://toowan0x1.github.io/Attacking-NET-Deserialization-II/",
   "image": "https://assets.offsec.tools/tools/ysoserial.net-4799.png",
   "datePublished": "2026-03-08T05:39:28.000Z",
-  "dateModified": "2026-03-08T06:06:12.109Z",
+  "dateModified": "2026-03-08T08:01:36.608Z",
   "author": [
     {
       "@type": "Person",
@@ -154,9 +156,204 @@
 }</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
   title: 'Attacking Insecure Deserialization in .NET — Part 2: Formatters and .NET Commons Gadgets',
   isHighlightShrink: false,
-  isToc: false,
+  isToc: true,
   pageType: 'post'
 }</script><link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet"><link href="/source/css/_custom/custom.css" rel="stylesheet"><style>
 </style> 
 <meta name="generator" content="Hexo 8.1.1"><link rel="alternate" href="/atom.xml" title="Toowan0x1" type="application/atom+xml">
-</head><body><div class="bg-animation" id="web_bg" style="background-image: url(https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/bfbd8baa-b2af-4488-b28d-a51f0e222e83/darz4e5-53dba865-3624-403d-9705-fecbb588bfdb.png/v1/fill/w_1600,h_900,q_80,strp/minecraft_swamp_mountains_hd_wallpaper_by_23pies_darz4e5-fullview.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9OTAwIiwicGF0aCI6Ii9mL2JmYmQ4YmFhLWIyYWYtNDQ4OC1iMjhkLWE1MWYwZTIyMmU4My9kYXJ6NGU1LTUzZGJhODY1LTM2MjQtNDAzZC05NzA1LWZlY2JiNTg4YmZkYi5wbmciLCJ3aWR0aCI6Ijw9MTYwMCJ9XV0sImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl19.mj3_Gkkc8-sJpNxfwCHl8ZGZtkmntwXJHjh0JRTK3q8);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="https://avatars.githubusercontent.com/u/50034094?v=4" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">10</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">9</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">6</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-user"></i><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(https://wallpapers.com/images/hd/minecraft-rice-field-morning-view-0sihckxh4zje0m4w.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/img/banana-favicon-pixel.png" alt="Logo"><span class="site-name">Toowan0x1</span></a><a class="nav-page-title" href="/"><span class="site-name">Attacking Insecure Deserialization in .NET — Part 2: Formatters and .NET Commons Gadgets</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  Back to Home</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> Search</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-user"></i><span> About</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">Attacking Insecure Deserialization in .NET — Part 2: Formatters and .NET Commons Gadgets</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="fa-fw post-meta-icon far fa-calendar-alt"></i><span class="post-meta-label">Created</span><time datetime="2026-03-08T05:39:28.000Z" title="Created 2026-03-08 05:39:28">2026-03-08</time></span></div><div class="meta-secondline"></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"></article><div class="tag_share"></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width" href="/Attacking-NET-Deserialization/" title="Attacking Insecure Deserialization in .NET — Part 1: Fundamentals and Lab Setup"><img class="cover" src="https://i0.wp.com/payatu.com/static/images/remoteblogs/pranay.b/insecure-deserialization/pic-3.png?w=800&amp;ssl=1" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">Next</div><div class="info-item-2">Attacking Insecure Deserialization in .NET — Part 1: Fundamentals and Lab Setup</div></div><div class="info-2"><div class="info-item-1">IntroductionThis article introduces Insecure Deserialization attacks in .NET and explains how attackers abuse gadget chains to achieve remote code execution. We will explore:  The fundamentals of .NET deserialization Gadget chains and serializers Tools such as ysoserial.net How to build a vulnerable ASP.NET lab for testing  Insecure Deserialization in .NET – Definition, Key Concepts, Tools, and Exploitation FlowDefinitionThis vulnerability occurs when an application deserializes untrusted dat...</div></div></div></a></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="https://avatars.githubusercontent.com/u/50034094?v=4" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Toowan0x1</div><div class="author-info-description">Offesnive Security & Penetration Testing Web/API/Mobile/AD/Cloud</div><div class="site-data"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">10</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">9</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">6</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Toowan0x1"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://ma.linkedin.com/in/toowan0x1/" target="_blank" title="Linkedin"><i class="fab fa-linkedin" style="color: #24292e;"></i></a><a class="social-icon" href="https://github.com/Toowan0x1" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="https://x.com/Toowan0x1" target="_blank" title="Twitter/X"><i class="fab fa-twitter" style="color: #24292e;"></i></a><a class="social-icon" href="https://toowan0x1.medium.com" target="_blank" title="Medium"><i class="fab fa-medium" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:contact.omar.elhoumadi@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #24292e;"></i></a></div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Posts</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/Attacking-NET-Deserialization-II/" title="Attacking Insecure Deserialization in .NET — Part 2: Formatters and .NET Commons Gadgets"><img src="https://assets.offsec.tools/tools/ysoserial.net-4799.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Attacking Insecure Deserialization in .NET — Part 2: Formatters and .NET Commons Gadgets"/></a><div class="content"><a class="title" href="/Attacking-NET-Deserialization-II/" title="Attacking Insecure Deserialization in .NET — Part 2: Formatters and .NET Commons Gadgets">Attacking Insecure Deserialization in .NET — Part 2: Formatters and .NET Commons Gadgets</a><time datetime="2026-03-08T05:39:28.000Z" title="Created 2026-03-08 05:39:28">2026-03-08</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/Attacking-NET-Deserialization/" title="Attacking Insecure Deserialization in .NET — Part 1: Fundamentals and Lab Setup"><img src="https://i0.wp.com/payatu.com/static/images/remoteblogs/pranay.b/insecure-deserialization/pic-3.png?w=800&amp;ssl=1" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Attacking Insecure Deserialization in .NET — Part 1: Fundamentals and Lab Setup"/></a><div class="content"><a class="title" href="/Attacking-NET-Deserialization/" title="Attacking Insecure Deserialization in .NET — Part 1: Fundamentals and Lab Setup">Attacking Insecure Deserialization in .NET — Part 1: Fundamentals and Lab Setup</a><time datetime="2026-03-08T03:48:31.000Z" title="Created 2026-03-08 03:48:31">2026-03-08</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/HackTheBox-Json-Windows-Medium/" title="HackTheBox - Json (Windows/Medium)"><img src="https://miro.medium.com/1*8rRi8WXr4SvAwkXuGaZ0kA.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="HackTheBox - Json (Windows/Medium)"/></a><div class="content"><a class="title" href="/HackTheBox-Json-Windows-Medium/" title="HackTheBox - Json (Windows/Medium)">HackTheBox - Json (Windows/Medium)</a><time datetime="2026-03-04T10:39:53.000Z" title="Created 2026-03-04 10:39:53">2026-03-04</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/HackTheBox-Breach-Windows-Medium/" title="HackTheBox - Breach (Windows/Medium)"><img src="https://htb-mp-prod-public-storage.s3.eu-central-1.amazonaws.com/avatars/61837d6132480b1bf36e3248acbfac1e.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="HackTheBox - Breach (Windows/Medium)"/></a><div class="content"><a class="title" href="/HackTheBox-Breach-Windows-Medium/" title="HackTheBox - Breach (Windows/Medium)">HackTheBox - Breach (Windows/Medium)</a><time datetime="2026-02-26T01:25:03.000Z" title="Created 2026-02-26 01:25:03">2026-02-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/HackTheBox-Forest-Windows-Easy/" title="HackTheBox - Forest (Windows/Easy)"><img src="https://htb-mp-prod-public-storage.s3.eu-central-1.amazonaws.com/avatars/7dedecb452597150647e73c2dd6c24c7.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="HackTheBox - Forest (Windows/Easy)"/></a><div class="content"><a class="title" href="/HackTheBox-Forest-Windows-Easy/" title="HackTheBox - Forest (Windows/Easy)">HackTheBox - Forest (Windows/Easy)</a><time datetime="2026-02-26T01:24:35.000Z" title="Created 2026-02-26 01:24:35">2026-02-26</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/bfbd8baa-b2af-4488-b28d-a51f0e222e83/darz4e5-53dba865-3624-403d-9705-fecbb588bfdb.png/v1/fill/w_1600,h_900,q_80,strp/minecraft_swamp_mountains_hd_wallpaper_by_23pies_darz4e5-fullview.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9OTAwIiwicGF0aCI6Ii9mL2JmYmQ4YmFhLWIyYWYtNDQ4OC1iMjhkLWE1MWYwZTIyMmU4My9kYXJ6NGU1LTUzZGJhODY1LTM2MjQtNDAzZC05NzA1LWZlY2JiNTg4YmZkYi5wbmciLCJ3aWR0aCI6Ijw9MTYwMCJ9XV0sImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl19.mj3_Gkkc8-sJpNxfwCHl8ZGZtkmntwXJHjh0JRTK3q8);"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By Toowan0x1</span><span class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 8.1.1</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.4</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Reading Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Toggle Between Light and Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle Between Single-column and Double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="Settings"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="Back to Top"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.4"></script><script src="/js/main.js?v=5.5.4"></script><div class="js-pjax"></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">Search</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  Loading Database</span></div><div class="local-search-input"><input placeholder="Search for Posts" type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=5.5.4"></script></div></div></body></html>
+</head><body><div class="bg-animation" id="web_bg" style="background-image: url(https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/bfbd8baa-b2af-4488-b28d-a51f0e222e83/darz4e5-53dba865-3624-403d-9705-fecbb588bfdb.png/v1/fill/w_1600,h_900,q_80,strp/minecraft_swamp_mountains_hd_wallpaper_by_23pies_darz4e5-fullview.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9OTAwIiwicGF0aCI6Ii9mL2JmYmQ4YmFhLWIyYWYtNDQ4OC1iMjhkLWE1MWYwZTIyMmU4My9kYXJ6NGU1LTUzZGJhODY1LTM2MjQtNDAzZC05NzA1LWZlY2JiNTg4YmZkYi5wbmciLCJ3aWR0aCI6Ijw9MTYwMCJ9XV0sImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl19.mj3_Gkkc8-sJpNxfwCHl8ZGZtkmntwXJHjh0JRTK3q8);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="https://avatars.githubusercontent.com/u/50034094?v=4" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">10</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">9</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">6</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-user"></i><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(https://wallpapers.com/images/hd/minecraft-rice-field-morning-view-0sihckxh4zje0m4w.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/img/banana-favicon-pixel.png" alt="Logo"><span class="site-name">Toowan0x1</span></a><a class="nav-page-title" href="/"><span class="site-name">Attacking Insecure Deserialization in .NET — Part 2: Formatters and .NET Commons Gadgets</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  Back to Home</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> Search</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-user"></i><span> About</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">Attacking Insecure Deserialization in .NET — Part 2: Formatters and .NET Commons Gadgets</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="fa-fw post-meta-icon far fa-calendar-alt"></i><span class="post-meta-label">Created</span><time datetime="2026-03-08T05:39:28.000Z" title="Created 2026-03-08 05:39:28">2026-03-08</time></span></div><div class="meta-secondline"></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><!--
+safer ones:
+- System.Text.Json
+- Newtonsoft.Json (safer but depends on config)
+
+Remediation:
+-> Set TypeNameHandling to None or implement strict SerializationBinder
+-->
+
+<p>In <strong>Part 1</strong>, we explored the basics of <strong>insecure deserialization in .NET</strong> and why it is considered a critical vulnerability.</p>
+<p>In this part, we focus on something every security researcher or .NET developer must recognize:</p>
+<blockquote>
+<p><strong>Dangerous serializers.</strong></p>
+</blockquote>
+<p>Some .NET formatters allow <strong>type metadata to be reconstructed during deserialization</strong>, which can enable attackers to trigger <strong>gadget chains leading to Remote Code Execution (RCE)</strong>.</p>
+<p>Understanding which serializers are dangerous is essential for both <strong>offensive security testing</strong> and <strong>defensive development</strong>.</p>
+<hr>
+<h2 id="Dangerous-NET-Deserializers"><a href="#Dangerous-NET-Deserializers" class="headerlink" title="Dangerous .NET Deserializers"></a>Dangerous .NET Deserializers</h2><p>Several legacy .NET serializers are considered <strong>unsafe by design</strong> when used with untrusted input.</p>
+<table>
+<thead>
+<tr>
+<th>Formatter</th>
+<th>Risk Level</th>
+<th>Format</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>BinaryFormatter</td>
+<td>🔴 VERY HIGH</td>
+<td>Binary</td>
+<td>Allows arbitrary object graph reconstruction</td>
+</tr>
+<tr>
+<td>LosFormatter</td>
+<td>🔴 HIGH</td>
+<td>SOAP XML</td>
+<td>Frequently abused in ASP.NET ViewState attacks</td>
+</tr>
+<tr>
+<td>NetDataContractSerializer</td>
+<td>🔴 HIGH</td>
+<td>ASP.NET ViewState format</td>
+<td>Includes full type information</td>
+</tr>
+<tr>
+<td>SoapFormatter</td>
+<td>🔴 HIGH</td>
+<td>XML with type metadata</td>
+<td>Deprecated and insecure</td>
+</tr>
+<tr>
+<td>ObjectStateFormatter</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+</tbody></table>
+<p>These serializers allow attackers to control <strong>types being instantiated</strong>, which makes them ideal targets for <strong>gadget-based exploitation</strong>.</p>
+<p>For example, tools like <strong>ysoserial.net</strong> generate payloads that exploit these formatters.</p>
+<hr>
+<h2 id="Why-They-Are-Dangerous"><a href="#Why-They-Are-Dangerous" class="headerlink" title="Why They Are Dangerous"></a>Why They Are Dangerous</h2><p>The core problem is <strong>type metadata handling</strong>.</p>
+<p>Many vulnerable serializers allow payloads containing something like:</p>
+<figure class="highlight elm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs elm">$<span class="hljs-keyword">type</span>: <span class="hljs-type">System</span>.<span class="hljs-type">SomeDangerousClass</span><br></code></pre></td></tr></table></figure>
+
+<p>During deserialization, the runtime may:</p>
+<ol>
+<li>Instantiate attacker-controlled types</li>
+<li>Trigger constructors</li>
+<li>Execute property setters</li>
+<li>Invoke dangerous gadget chains</li>
+</ol>
+<p>This process can ultimately lead to:</p>
+<ul>
+<li><strong>Remote Code Execution</strong></li>
+<li><strong>File operations</strong></li>
+<li><strong>Process spawning</strong></li>
+<li><strong>Network calls</strong></li>
+</ul>
+<hr>
+<h2 id="Safer-Serialization-Options"><a href="#Safer-Serialization-Options" class="headerlink" title="Safer Serialization Options"></a>Safer Serialization Options</h2><p>Modern .NET applications should prefer <strong>safe serializers that do not allow arbitrary type reconstruction</strong>.</p>
+<table>
+<thead>
+<tr>
+<th>Serializer</th>
+<th>Safety</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>System.Text.Json</td>
+<td>🟢 Safe</td>
+<td>No polymorphic type loading by default</td>
+</tr>
+<tr>
+<td>Newtonsoft.Json</td>
+<td>🟡 Generally Safe</td>
+<td>Unsafe if <code>TypeNameHandling</code> is enabled</td>
+</tr>
+</tbody></table>
+<p>⚠️ The risk with <strong>Newtonsoft.Json</strong> appears when developers enable:</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs csharp">TypeNameHandling = TypeNameHandling.All<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="Secure-Configuration-Remediation"><a href="#Secure-Configuration-Remediation" class="headerlink" title="Secure Configuration (Remediation)"></a>Secure Configuration (Remediation)</h3><p>When using Newtonsoft.Json, follow these security practices:</p>
+<h4 id="Disable-Type-Name-Handling"><a href="#Disable-Type-Name-Handling" class="headerlink" title="Disable Type Name Handling"></a>Disable Type Name Handling</h4><figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs abnf"><span class="hljs-attribute">TypeNameHandling</span> <span class="hljs-operator">=</span> TypeNameHandling.None<br></code></pre></td></tr></table></figure>
+
+<h4 id="Use-a-Strict-Serialization-Binder"><a href="#Use-a-Strict-Serialization-Binder" class="headerlink" title="Use a Strict Serialization Binder"></a>Use a Strict Serialization Binder</h4><p>Implement a whitelist of allowed types:</p>
+<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs abnf"><span class="hljs-attribute">SerializationBinder</span> <span class="hljs-operator">=</span> new KnownTypesBinder()<br></code></pre></td></tr></table></figure>
+
+<p>This prevents attackers from injecting arbitrary .NET classes during deserialization.</p>
+<h3 id="Key-Takeaways"><a href="#Key-Takeaways" class="headerlink" title="Key Takeaways"></a>Key Takeaways</h3><table>
+<thead>
+<tr>
+<th>Category</th>
+<th>Recommendation</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Legacy Formatters</td>
+<td>Avoid completely</td>
+</tr>
+<tr>
+<td>BinaryFormatter</td>
+<td>Never deserialize untrusted data</td>
+</tr>
+<tr>
+<td>JSON Libraries</td>
+<td>Prefer System.Text.Json</td>
+</tr>
+<tr>
+<td>Newtonsoft.Json</td>
+<td>Disable TypeNameHandling</td>
+</tr>
+</tbody></table>
+<h3 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h3><p>Insecure deserialization remains one of the most dangerous vulnerability classes in .NET applications.</p>
+<p>Recognizing risky serializers is the first step toward exploitation or prevention.</p>
+<p>Developers should:</p>
+<p>Avoid legacy formatters</p>
+<p>Use modern JSON serializers</p>
+<p>Strictly control type resolution</p>
+<p>Security testers should always check for these formatters when auditing ASP.NET and .NET applications.</p>
+<hr>
+<h2 id="Formatters"><a href="#Formatters" class="headerlink" title="Formatters"></a>Formatters</h2><p>What is a Formatter in .NET?</p>
+<p>A formatter is simply a class responsible for converting objects into serialized format and restoring them.</p>
+<p>They read serialized data and <strong>rebuild objects in memory</strong>.</p>
+<p>If the attacker controls the input → they can control <strong>which objects are created</strong>.</p>
+<h2 id="Dangerous-NET-Formatters-Used-in-RCE-chains"><a href="#Dangerous-NET-Formatters-Used-in-RCE-chains" class="headerlink" title="Dangerous .NET Formatters (Used in RCE chains)"></a>Dangerous .NET Formatters (Used in RCE chains)</h2><h3 id="BinaryFormatter"><a href="#BinaryFormatter" class="headerlink" title="BinaryFormatter"></a>BinaryFormatter</h3><p>-&gt; This category of attack cannot be mitigated with a SerializationBinder or any other BinaryFormatter configuration switch.<br>-&gt; When application does something like <code>BinaryFormatter.Deserialize(stream);</code><br>It reconstructs objects.<br>If attacker controls that stream:</p>
+<ul>
+<li>They control which object is reconstructed</li>
+<li>They may choose a gadget chain class</li>
+<li>That class may lead to a sink</li>
+</ul>
+<p>That’s how .NET deserialization RCE happens.</p>
+<p><strong><strong>Why is BinaryFormatter dangerous?</strong></strong></p>
+<ul>
+<li>Because it allows full type deserialization and if attacker controls the input, they can instantiate arbitrary classes available in the application domain, which may trigger dangerous methods during object reconstruction.</li>
+</ul>
+<p>BinaryFormatter is obsolete and insecure in modern .NET. Microsoft recommends alternatives like:</p>
+<ul>
+<li>System.Text.Json</li>
+<li>XmlSerializer</li>
+<li>DataContractSerializer</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Namespace</th>
+<th><code>System.Runtime.Serialization.Formatters.Binary</code></th>
+</tr>
+</thead>
+</table>
+<p>Usage:</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs csharp">BinaryFormatter formatter = <span class="hljs-keyword">new</span> BinaryFormatter();<br><span class="hljs-built_in">object</span> obj = formatter.Deserialize(stream);<br></code></pre></td></tr></table></figure>
+
+<p>What BinaryFormatter Does:</p>
+<ol>
+<li>Reads <strong>type metadata from serialized data</strong></li>
+<li>Instantiates <strong>any class available in the application</strong></li>
+<li>Executes special methods automatically</li>
+</ol>
+<p>Example:</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs csharp">Serialized data → contains type info → .NET loads that <span class="hljs-keyword">class</span> <br>→ <span class="hljs-title">constructor</span> / <span class="hljs-title">callbacks</span> <span class="hljs-title">execute</span><br></code></pre></td></tr></table></figure>
+
+<p>Example attack flow</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs csharp">Attacker sends malicious serialized payload<br>     ↓<br>BinaryFormatter.Deserialize()<br>     ↓<br>.NET creates dangerous <span class="hljs-built_in">object</span><br>     ↓<br>Gadget executes Process.Start()<br>     ↓<br>Remote Code Execution<br></code></pre></td></tr></table></figure>
+
+<p>Example vulnerable code:</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-function"><span class="hljs-keyword">public</span> IActionResult <span class="hljs-title">Upload</span>(<span class="hljs-params">IFormFile <span class="hljs-keyword">file</span></span>)</span><br>&#123;<br>    BinaryFormatter formatter = <span class="hljs-keyword">new</span> BinaryFormatter();<br>    formatter.Deserialize(<span class="hljs-keyword">file</span>.OpenReadStream());<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>If attacker uploads <strong>serialized payload</strong> → <strong>RCE</strong>.</p>
+<p>→Never use BinaryFormatter with untrusted data.</p>
+<h3 id="SoapFormatter"><a href="#SoapFormatter" class="headerlink" title="SoapFormatter"></a>SoapFormatter</h3><h3 id="LosFormatter"><a href="#LosFormatter" class="headerlink" title="LosFormatter"></a>LosFormatter</h3><h3 id="NetDataContractSerializer"><a href="#NetDataContractSerializer" class="headerlink" title="NetDataContractSerializer"></a>NetDataContractSerializer</h3><h2 id="Create-a-sample-vulnerable-NET-web-app-Test-with-YSoSerial-net"><a href="#Create-a-sample-vulnerable-NET-web-app-Test-with-YSoSerial-net" class="headerlink" title="Create a sample vulnerable .NET web app &amp; Test with YSoSerial.net"></a>Create a sample vulnerable .NET web app &amp; Test with YSoSerial.net</h2><p>Example payload generation:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">ysoserial.net -f BinaryFormatter -g TypeConfuseDelegate -c <span class="hljs-string">&quot;calc.exe&quot;</span><br></code></pre></td></tr></table></figure>
+
+</article><div class="tag_share"></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width" href="/Attacking-NET-Deserialization/" title="Attacking Insecure Deserialization in .NET — Part 1: Fundamentals and Lab Setup"><img class="cover" src="https://i0.wp.com/payatu.com/static/images/remoteblogs/pranay.b/insecure-deserialization/pic-3.png?w=800&amp;ssl=1" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">Next</div><div class="info-item-2">Attacking Insecure Deserialization in .NET — Part 1: Fundamentals and Lab Setup</div></div><div class="info-2"><div class="info-item-1">IntroductionThis article introduces Insecure Deserialization attacks in .NET and explains how attackers abuse gadget chains to achieve remote code execution. We will explore:  The fundamentals of .NET deserialization Gadget chains and serializers Tools such as ysoserial.net How to build a vulnerable ASP.NET lab for testing  Insecure Deserialization in .NET – Definition, Key Concepts, Tools, and Exploitation FlowDefinitionThis vulnerability occurs when an application deserializes untrusted dat...</div></div></div></a></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="https://avatars.githubusercontent.com/u/50034094?v=4" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Toowan0x1</div><div class="author-info-description">Offesnive Security & Penetration Testing Web/API/Mobile/AD/Cloud</div><div class="site-data"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">10</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">9</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">6</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Toowan0x1"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://ma.linkedin.com/in/toowan0x1/" target="_blank" title="Linkedin"><i class="fab fa-linkedin" style="color: #24292e;"></i></a><a class="social-icon" href="https://github.com/Toowan0x1" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="https://x.com/Toowan0x1" target="_blank" title="Twitter/X"><i class="fab fa-twitter" style="color: #24292e;"></i></a><a class="social-icon" href="https://toowan0x1.medium.com" target="_blank" title="Medium"><i class="fab fa-medium" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:contact.omar.elhoumadi@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #24292e;"></i></a></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Contents</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Dangerous-NET-Deserializers"><span class="toc-number">1.</span> <span class="toc-text">Dangerous .NET Deserializers</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Why-They-Are-Dangerous"><span class="toc-number">2.</span> <span class="toc-text">Why They Are Dangerous</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Safer-Serialization-Options"><span class="toc-number">3.</span> <span class="toc-text">Safer Serialization Options</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Secure-Configuration-Remediation"><span class="toc-number">3.1.</span> <span class="toc-text">Secure Configuration (Remediation)</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Disable-Type-Name-Handling"><span class="toc-number">3.1.1.</span> <span class="toc-text">Disable Type Name Handling</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Use-a-Strict-Serialization-Binder"><span class="toc-number">3.1.2.</span> <span class="toc-text">Use a Strict Serialization Binder</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Key-Takeaways"><span class="toc-number">3.2.</span> <span class="toc-text">Key Takeaways</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Summary"><span class="toc-number">3.3.</span> <span class="toc-text">Summary</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Formatters"><span class="toc-number">4.</span> <span class="toc-text">Formatters</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Dangerous-NET-Formatters-Used-in-RCE-chains"><span class="toc-number">5.</span> <span class="toc-text">Dangerous .NET Formatters (Used in RCE chains)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#BinaryFormatter"><span class="toc-number">5.1.</span> <span class="toc-text">BinaryFormatter</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SoapFormatter"><span class="toc-number">5.2.</span> <span class="toc-text">SoapFormatter</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LosFormatter"><span class="toc-number">5.3.</span> <span class="toc-text">LosFormatter</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#NetDataContractSerializer"><span class="toc-number">5.4.</span> <span class="toc-text">NetDataContractSerializer</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Create-a-sample-vulnerable-NET-web-app-Test-with-YSoSerial-net"><span class="toc-number">6.</span> <span class="toc-text">Create a sample vulnerable .NET web app &amp; Test with YSoSerial.net</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Posts</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/Attacking-NET-Deserialization-II/" title="Attacking Insecure Deserialization in .NET — Part 2: Formatters and .NET Commons Gadgets"><img src="https://assets.offsec.tools/tools/ysoserial.net-4799.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Attacking Insecure Deserialization in .NET — Part 2: Formatters and .NET Commons Gadgets"/></a><div class="content"><a class="title" href="/Attacking-NET-Deserialization-II/" title="Attacking Insecure Deserialization in .NET — Part 2: Formatters and .NET Commons Gadgets">Attacking Insecure Deserialization in .NET — Part 2: Formatters and .NET Commons Gadgets</a><time datetime="2026-03-08T05:39:28.000Z" title="Created 2026-03-08 05:39:28">2026-03-08</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/Attacking-NET-Deserialization/" title="Attacking Insecure Deserialization in .NET — Part 1: Fundamentals and Lab Setup"><img src="https://i0.wp.com/payatu.com/static/images/remoteblogs/pranay.b/insecure-deserialization/pic-3.png?w=800&amp;ssl=1" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Attacking Insecure Deserialization in .NET — Part 1: Fundamentals and Lab Setup"/></a><div class="content"><a class="title" href="/Attacking-NET-Deserialization/" title="Attacking Insecure Deserialization in .NET — Part 1: Fundamentals and Lab Setup">Attacking Insecure Deserialization in .NET — Part 1: Fundamentals and Lab Setup</a><time datetime="2026-03-08T03:48:31.000Z" title="Created 2026-03-08 03:48:31">2026-03-08</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/HackTheBox-Json-Windows-Medium/" title="HackTheBox - Json (Windows/Medium)"><img src="https://miro.medium.com/1*8rRi8WXr4SvAwkXuGaZ0kA.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="HackTheBox - Json (Windows/Medium)"/></a><div class="content"><a class="title" href="/HackTheBox-Json-Windows-Medium/" title="HackTheBox - Json (Windows/Medium)">HackTheBox - Json (Windows/Medium)</a><time datetime="2026-03-04T10:39:53.000Z" title="Created 2026-03-04 10:39:53">2026-03-04</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/HackTheBox-Breach-Windows-Medium/" title="HackTheBox - Breach (Windows/Medium)"><img src="https://htb-mp-prod-public-storage.s3.eu-central-1.amazonaws.com/avatars/61837d6132480b1bf36e3248acbfac1e.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="HackTheBox - Breach (Windows/Medium)"/></a><div class="content"><a class="title" href="/HackTheBox-Breach-Windows-Medium/" title="HackTheBox - Breach (Windows/Medium)">HackTheBox - Breach (Windows/Medium)</a><time datetime="2026-02-26T01:25:03.000Z" title="Created 2026-02-26 01:25:03">2026-02-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/HackTheBox-Forest-Windows-Easy/" title="HackTheBox - Forest (Windows/Easy)"><img src="https://htb-mp-prod-public-storage.s3.eu-central-1.amazonaws.com/avatars/7dedecb452597150647e73c2dd6c24c7.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="HackTheBox - Forest (Windows/Easy)"/></a><div class="content"><a class="title" href="/HackTheBox-Forest-Windows-Easy/" title="HackTheBox - Forest (Windows/Easy)">HackTheBox - Forest (Windows/Easy)</a><time datetime="2026-02-26T01:24:35.000Z" title="Created 2026-02-26 01:24:35">2026-02-26</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/bfbd8baa-b2af-4488-b28d-a51f0e222e83/darz4e5-53dba865-3624-403d-9705-fecbb588bfdb.png/v1/fill/w_1600,h_900,q_80,strp/minecraft_swamp_mountains_hd_wallpaper_by_23pies_darz4e5-fullview.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9OTAwIiwicGF0aCI6Ii9mL2JmYmQ4YmFhLWIyYWYtNDQ4OC1iMjhkLWE1MWYwZTIyMmU4My9kYXJ6NGU1LTUzZGJhODY1LTM2MjQtNDAzZC05NzA1LWZlY2JiNTg4YmZkYi5wbmciLCJ3aWR0aCI6Ijw9MTYwMCJ9XV0sImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl19.mj3_Gkkc8-sJpNxfwCHl8ZGZtkmntwXJHjh0JRTK3q8);"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By Toowan0x1</span><span class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 8.1.1</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.4</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Reading Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Toggle Between Light and Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle Between Single-column and Double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="Settings"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back to Top"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.4"></script><script src="/js/main.js?v=5.5.4"></script><div class="js-pjax"></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">Search</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  Loading Database</span></div><div class="local-search-input"><input placeholder="Search for Posts" type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=5.5.4"></script></div></div></body></html>
