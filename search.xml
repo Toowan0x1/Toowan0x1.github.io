@@ -3,7 +3,7 @@
   <entry>
     <title>Attacking .NET Deserialization</title>
     <url>/2026/03/08/Attacking-NET-Deserialization/</url>
-    <content><![CDATA[<h2 id="Insecure-Deserialization-in-NET-–-Definition-Key-Concepts-Tools-and-Exploitation-Flow"><a href="#Insecure-Deserialization-in-NET-–-Definition-Key-Concepts-Tools-and-Exploitation-Flow" class="headerlink" title="Insecure Deserialization in .NET – Definition, Key Concepts, Tools, and Exploitation Flow"></a>Insecure Deserialization in .NET – Definition, Key Concepts, Tools, and Exploitation Flow</h2><h3 id="Definition"><a href="#Definition" class="headerlink" title="Definition"></a>Definition</h3><p>This vulnerability occurs occurs when an application deserializes untrusted data without proper validation. -&gt; when the target application uses vulnerable libraries, framework classes, or built-in platform classes that can be abused during deserialization.</p>
+    <content><![CDATA[<h1 id="Attacking-Insecure-Deseralization-in-NET-Part-I"><a href="#Attacking-Insecure-Deseralization-in-NET-Part-I" class="headerlink" title="Attacking Insecure Deseralization in .NET [Part-I]"></a>Attacking Insecure Deseralization in .NET [Part-I]</h1><h2 id="Insecure-Deserialization-in-NET-–-Definition-Key-Concepts-Tools-and-Exploitation-Flow"><a href="#Insecure-Deserialization-in-NET-–-Definition-Key-Concepts-Tools-and-Exploitation-Flow" class="headerlink" title="Insecure Deserialization in .NET – Definition, Key Concepts, Tools, and Exploitation Flow"></a>Insecure Deserialization in .NET – Definition, Key Concepts, Tools, and Exploitation Flow</h2><h3 id="Definition"><a href="#Definition" class="headerlink" title="Definition"></a>Definition</h3><p>This vulnerability occurs occurs when an application deserializes untrusted data without proper validation. -&gt; when the target application uses vulnerable libraries, framework classes, or built-in platform classes that can be abused during deserialization.</p>
 <p>During deserialization, the application reconstructs objects from serialized data. In some cases, special methods (such as constructors or deserialization callbacks like OnDeserialized) may be automatically executed.</p>
 <p>If an attacker can control the serialized data, they may craft a malicious object that triggers unintended code execution during the deserialization process.</p>
 <p>A vulnerable class that can be abused during deserialization is called a <strong>gadget</strong>.</p>
@@ -228,13 +228,13 @@
       </tags>
   </entry>
   <entry>
-    <title>HackTheBox - WingData (Linux/Easy)</title>
-    <url>/2026/02/26/HackTheBox-WingData-Linux-Easy/</url>
+    <title>HackTheBox - Soulmate (Linux/Easy)</title>
+    <url>/2026/02/26/HackTheBox-Soulmate-Linux-Easy/</url>
     <content><![CDATA[]]></content>
   </entry>
   <entry>
-    <title>HackTheBox - Soulmate (Linux/Easy)</title>
-    <url>/2026/02/26/HackTheBox-Soulmate-Linux-Easy/</url>
+    <title>HackTheBox - WingData (Linux/Easy)</title>
+    <url>/2026/02/26/HackTheBox-WingData-Linux-Easy/</url>
     <content><![CDATA[]]></content>
   </entry>
   <entry>
