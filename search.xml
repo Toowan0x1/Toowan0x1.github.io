@@ -1,206 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>Attacking Insecure Deserialization in .NET — Part 2: Formatters and .NET Commons Gadgets</title>
-    <url>/Attacking-NET-Deserialization-II/</url>
-    <content><![CDATA[<!--
-safer ones:
-- System.Text.Json
-- Newtonsoft.Json (safer but depends on config)
-
-Remediation:
--> Set TypeNameHandling to None or implement strict SerializationBinder
--->
-
-<p>In <strong>Part 1</strong>, we explored the basics of <strong>insecure deserialization in .NET</strong> and why it is considered a critical vulnerability.</p>
-<p>In this part, we focus on something every security researcher or .NET developer must recognize:</p>
-<blockquote>
-<p><strong>Dangerous serializers.</strong></p>
-</blockquote>
-<p>Some .NET formatters allow <strong>type metadata to be reconstructed during deserialization</strong>, which can enable attackers to trigger <strong>gadget chains leading to Remote Code Execution (RCE)</strong>.</p>
-<p>Understanding which serializers are dangerous is essential for both <strong>offensive security testing</strong> and <strong>defensive development</strong>.</p>
-<hr>
-<h2 id="Dangerous-NET-Deserializers"><a href="#Dangerous-NET-Deserializers" class="headerlink" title="Dangerous .NET Deserializers"></a>Dangerous .NET Deserializers</h2><p>Several legacy .NET serializers are considered <strong>unsafe by design</strong> when used with untrusted input.</p>
-<table>
-<thead>
-<tr>
-<th>Formatter</th>
-<th>Risk Level</th>
-<th>Format</th>
-<th>Notes</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>BinaryFormatter</td>
-<td>🔴 VERY HIGH</td>
-<td>Binary</td>
-<td>Allows arbitrary object graph reconstruction</td>
-</tr>
-<tr>
-<td>LosFormatter</td>
-<td>🔴 HIGH</td>
-<td>SOAP XML</td>
-<td>Frequently abused in ASP.NET ViewState attacks</td>
-</tr>
-<tr>
-<td>NetDataContractSerializer</td>
-<td>🔴 HIGH</td>
-<td>ASP.NET ViewState format</td>
-<td>Includes full type information</td>
-</tr>
-<tr>
-<td>SoapFormatter</td>
-<td>🔴 HIGH</td>
-<td>XML with type metadata</td>
-<td>Deprecated and insecure</td>
-</tr>
-<tr>
-<td>ObjectStateFormatter</td>
-<td>🔴 HIGH</td>
-<td>ASP.NET ViewState binary format</td>
-<td>Used internally by ASP.NET for ViewState;<br>Vulnerable when ViewState MAC is disabled or bypassed</td>
-</tr>
-</tbody></table>
-<p>These serializers allow attackers to control <strong>types being instantiated</strong>, which makes them ideal targets for <strong>gadget-based exploitation</strong>.</p>
-<p>For example, tools like <strong>ysoserial.net</strong> generate payloads that exploit these formatters.</p>
-<hr>
-<h2 id="Why-They-Are-Dangerous"><a href="#Why-They-Are-Dangerous" class="headerlink" title="Why They Are Dangerous"></a>Why They Are Dangerous</h2><p>The core problem is <strong>type metadata handling</strong>.</p>
-<p>Many vulnerable serializers allow payloads containing something like:</p>
-<figure class="highlight elm"><table><tr><td class="code"><pre><code class="hljs elm">$<span class="hljs-keyword">type</span>: <span class="hljs-type">System</span>.<span class="hljs-type">SomeDangerousClass</span><br></code></pre></td></tr></table></figure>
-
-<p>During deserialization, the runtime may:</p>
-<ol>
-<li>Instantiate attacker-controlled types</li>
-<li>Trigger constructors</li>
-<li>Execute property setters</li>
-<li>Invoke dangerous gadget chains</li>
-</ol>
-<p>This process can ultimately lead to:</p>
-<ul>
-<li><strong>Remote Code Execution</strong></li>
-<li><strong>File operations</strong></li>
-<li><strong>Process spawning</strong></li>
-<li><strong>Network calls</strong></li>
-</ul>
-<hr>
-<h2 id="Safer-Serialization-Options"><a href="#Safer-Serialization-Options" class="headerlink" title="Safer Serialization Options"></a>Safer Serialization Options</h2><p>Modern .NET applications should prefer <strong>safe serializers that do not allow arbitrary type reconstruction</strong>.</p>
-<table>
-<thead>
-<tr>
-<th>Serializer</th>
-<th>Safety</th>
-<th>Notes</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>System.Text.Json</td>
-<td>🟢 Safe</td>
-<td>No polymorphic type loading by default</td>
-</tr>
-<tr>
-<td>Newtonsoft.Json</td>
-<td>🟡 Generally Safe</td>
-<td>Unsafe if <code>TypeNameHandling</code> is enabled</td>
-</tr>
-</tbody></table>
-<p>⚠️ The risk with <strong>Newtonsoft.Json</strong> appears when developers enable:</p>
-<figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp">TypeNameHandling = TypeNameHandling.All<br></code></pre></td></tr></table></figure>
-
-<hr>
-<h3 id="Secure-Configuration-Remediation"><a href="#Secure-Configuration-Remediation" class="headerlink" title="Secure Configuration (Remediation)"></a>Secure Configuration (Remediation)</h3><p>When using Newtonsoft.Json, follow these security practices:</p>
-<h4 id="Disable-Type-Name-Handling"><a href="#Disable-Type-Name-Handling" class="headerlink" title="Disable Type Name Handling"></a>Disable Type Name Handling</h4><figure class="highlight abnf"><table><tr><td class="code"><pre><code class="hljs abnf"><span class="hljs-attribute">TypeNameHandling</span> <span class="hljs-operator">=</span> TypeNameHandling.None<br></code></pre></td></tr></table></figure>
-
-<h4 id="Use-a-Strict-Serialization-Binder"><a href="#Use-a-Strict-Serialization-Binder" class="headerlink" title="Use a Strict Serialization Binder"></a>Use a Strict Serialization Binder</h4><p>Implement a whitelist of allowed types:</p>
-<figure class="highlight abnf"><table><tr><td class="code"><pre><code class="hljs abnf"><span class="hljs-attribute">SerializationBinder</span> <span class="hljs-operator">=</span> new KnownTypesBinder()<br></code></pre></td></tr></table></figure>
-
-<p>This prevents attackers from injecting arbitrary .NET classes during deserialization.</p>
-<h3 id="Key-Takeaways"><a href="#Key-Takeaways" class="headerlink" title="Key Takeaways"></a>Key Takeaways</h3><table>
-<thead>
-<tr>
-<th>Category</th>
-<th>Recommendation</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>Legacy Formatters</td>
-<td>Avoid completely</td>
-</tr>
-<tr>
-<td>BinaryFormatter</td>
-<td>Never deserialize untrusted data</td>
-</tr>
-<tr>
-<td>JSON Libraries</td>
-<td>Prefer System.Text.Json</td>
-</tr>
-<tr>
-<td>Newtonsoft.Json</td>
-<td>Disable TypeNameHandling</td>
-</tr>
-</tbody></table>
-<h3 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h3><p>Insecure deserialization remains one of the most dangerous vulnerability classes in .NET applications.</p>
-<p>Recognizing risky serializers is the first step toward exploitation or prevention.</p>
-<p>Developers should:</p>
-<p>Avoid legacy formatters</p>
-<p>Use modern JSON serializers</p>
-<p>Strictly control type resolution</p>
-<p>Security testers should always check for these formatters when auditing ASP.NET and .NET applications.</p>
-<hr>
-<h2 id="Formatters"><a href="#Formatters" class="headerlink" title="Formatters"></a>Formatters</h2><p>What is a Formatter in .NET?</p>
-<p>A formatter is simply a class responsible for converting objects into serialized format and restoring them.</p>
-<p>They read serialized data and <strong>rebuild objects in memory</strong>.</p>
-<p>If the attacker controls the input → they can control <strong>which objects are created</strong>.</p>
-<h2 id="Dangerous-NET-Formatters-Used-in-RCE-chains"><a href="#Dangerous-NET-Formatters-Used-in-RCE-chains" class="headerlink" title="Dangerous .NET Formatters (Used in RCE chains)"></a>Dangerous .NET Formatters (Used in RCE chains)</h2><h3 id="BinaryFormatter"><a href="#BinaryFormatter" class="headerlink" title="BinaryFormatter"></a>BinaryFormatter</h3><p>-&gt; This category of attack cannot be mitigated with a SerializationBinder or any other BinaryFormatter configuration switch.<br>-&gt; When application does something like <code>BinaryFormatter.Deserialize(stream);</code><br>It reconstructs objects.<br>If attacker controls that stream:</p>
-<ul>
-<li>They control which object is reconstructed</li>
-<li>They may choose a gadget chain class</li>
-<li>That class may lead to a sink</li>
-</ul>
-<p>That’s how .NET deserialization RCE happens.</p>
-<p><strong><strong>Why is BinaryFormatter dangerous?</strong></strong></p>
-<ul>
-<li>Because it allows full type deserialization and if attacker controls the input, they can instantiate arbitrary classes available in the application domain, which may trigger dangerous methods during object reconstruction.</li>
-</ul>
-<p>BinaryFormatter is obsolete and insecure in modern .NET. Microsoft recommends alternatives like:</p>
-<ul>
-<li>System.Text.Json</li>
-<li>XmlSerializer</li>
-<li>DataContractSerializer</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th>Namespace</th>
-<th><code>System.Runtime.Serialization.Formatters.Binary</code></th>
-</tr>
-</thead>
-</table>
-<p>Usage:</p>
-<figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp">BinaryFormatter formatter = <span class="hljs-keyword">new</span> BinaryFormatter();<br><span class="hljs-built_in">object</span> obj = formatter.Deserialize(stream);<br></code></pre></td></tr></table></figure>
-
-<p>What BinaryFormatter Does:</p>
-<ol>
-<li>Reads <strong>type metadata from serialized data</strong></li>
-<li>Instantiates <strong>any class available in the application</strong></li>
-<li>Executes special methods automatically</li>
-</ol>
-<p>Example:</p>
-<figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp">Serialized data → contains type info → .NET loads that <span class="hljs-keyword">class</span> <br>→ <span class="hljs-title">constructor</span> / <span class="hljs-title">callbacks</span> <span class="hljs-title">execute</span><br></code></pre></td></tr></table></figure>
-
-<p>Example attack flow</p>
-<figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp">Attacker sends malicious serialized payload<br>     ↓<br>BinaryFormatter.Deserialize()<br>     ↓<br>.NET creates dangerous <span class="hljs-built_in">object</span><br>     ↓<br>Gadget executes Process.Start()<br>     ↓<br>Remote Code Execution<br></code></pre></td></tr></table></figure>
-
-<p>Example vulnerable code:</p>
-<figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp"><span class="hljs-function"><span class="hljs-keyword">public</span> IActionResult <span class="hljs-title">Upload</span>(<span class="hljs-params">IFormFile <span class="hljs-keyword">file</span></span>)</span><br>&#123;<br>    BinaryFormatter formatter = <span class="hljs-keyword">new</span> BinaryFormatter();<br>    formatter.Deserialize(<span class="hljs-keyword">file</span>.OpenReadStream());<br>&#125;<br></code></pre></td></tr></table></figure>
-
-<p>If attacker uploads <strong>serialized payload</strong> → <strong>RCE</strong>.</p>
-<p>→Never use BinaryFormatter with untrusted data.</p>
-<h3 id="SoapFormatter"><a href="#SoapFormatter" class="headerlink" title="SoapFormatter"></a>SoapFormatter</h3><h3 id="LosFormatter"><a href="#LosFormatter" class="headerlink" title="LosFormatter"></a>LosFormatter</h3><h3 id="NetDataContractSerializer"><a href="#NetDataContractSerializer" class="headerlink" title="NetDataContractSerializer"></a>NetDataContractSerializer</h3><h2 id="Create-a-sample-vulnerable-NET-web-app-Test-with-YSoSerial-net"><a href="#Create-a-sample-vulnerable-NET-web-app-Test-with-YSoSerial-net" class="headerlink" title="Create a sample vulnerable .NET web app &amp; Test with YSoSerial.net"></a>Create a sample vulnerable .NET web app &amp; Test with YSoSerial.net</h2><p>Example payload generation:</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">ysoserial.net -f BinaryFormatter -g TypeConfuseDelegate -c <span class="hljs-string">&quot;calc.exe&quot;</span><br></code></pre></td></tr></table></figure>
-
-]]></content>
-  </entry>
-  <entry>
     <title>Attacking Insecure Deserialization in .NET — Part 1: Fundamentals and Lab Setup</title>
     <url>/Attacking-NET-Deserialization/</url>
     <content><![CDATA[<h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>This article introduces <strong>Insecure Deserialization attacks in .NET</strong> and explains how attackers abuse gadget chains to achieve remote code execution.</p>
@@ -551,66 +351,203 @@ Remediation:
       </tags>
   </entry>
   <entry>
-    <title>HackTheBox - Breach (Windows/Medium)</title>
-    <url>/HackTheBox-Breach-Windows-Medium/</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
-    <title>HackTheBox - Forest (Windows/Easy)</title>
-    <url>/HackTheBox-Forest-Windows-Easy/</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
-    <title>HackTheBox - GiveBack (Linux/Medium)</title>
-    <url>/HackTheBox-GiveBack-Linux-Medium/</url>
-    <content><![CDATA[<h2 id="Enumeration"><a href="#Enumeration" class="headerlink" title="Enumeration"></a>Enumeration</h2><figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">nmap -A<br></code></pre></td></tr></table></figure>
+    <title>Attacking Insecure Deserialization in .NET — Part 2: Formatters and .NET Commons Gadgets</title>
+    <url>/Attacking-NET-Deserialization-II/</url>
+    <content><![CDATA[<!--
+safer ones:
+- System.Text.Json
+- Newtonsoft.Json (safer but depends on config)
 
-<h2 id="Privilege-Escalation-Exploit-runc"><a href="#Privilege-Escalation-Exploit-runc" class="headerlink" title="Privilege Escalation: Exploit runc"></a>Privilege Escalation: Exploit runc</h2><figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">babywyrm@giveback:/dev/shm/exploit$ <span class="hljs-built_in">ls</span><br>alpine.tar<br><br>babywyrm@giveback:/dev/shm/exploit$ <span class="hljs-built_in">mkdir</span> rootfs<br>babywyrm@giveback:/dev/shm/exploit$ tar -xvf alpine.tar -C rootfs (slient)<br>babywyrm@giveback:/dev/shm/exploit$ <span class="hljs-built_in">ls</span> -la rootfs/<br>total 0<br>drwxrwxr-x 19 babywyrm babywyrm  400 Feb 24 12:50 .<br>drwxrwxr-x  3 babywyrm babywyrm  100 Feb 24 15:04 ..<br>-rwxr-xr-x  1 babywyrm babywyrm    0 Feb 24 12:45 .dockerenv<br>drwxr-xr-x  2 babywyrm babywyrm 1680 Jan 27 21:19 bin<br>drwxr-xr-x  4 babywyrm babywyrm  100 Feb 24 12:45 dev<br>drwxr-xr-x 17 babywyrm babywyrm  760 Feb 24 12:45 etc<br>drwxr-xr-x  2 babywyrm babywyrm   40 Jan 27 21:19 home<br>drwxr-xr-x  6 babywyrm babywyrm  160 Jan 27 21:19 lib<br>drwxr-xr-x  5 babywyrm babywyrm  100 Jan 27 21:19 media<br>drwxr-xr-x  2 babywyrm babywyrm   40 Jan 27 21:19 mnt<br>drwxr-xr-x  2 babywyrm babywyrm   40 Jan 27 21:19 opt<br>drwxr-xr-x  2 babywyrm babywyrm   40 Jan 27 21:19 proc<br>drwx------  2 babywyrm babywyrm   40 Jan 27 21:19 root<br>drwxr-xr-x  3 babywyrm babywyrm   60 Jan 27 21:19 run<br>drwxr-xr-x  2 babywyrm babywyrm 1280 Jan 27 21:19 sbin<br>drwxr-xr-x  2 babywyrm babywyrm   40 Jan 27 21:19 srv<br>drwxr-xr-x  2 babywyrm babywyrm   40 Jan 27 21:19 sys<br>drwxrwxr-x  2 babywyrm babywyrm   40 Jan 27 21:19 tmp<br>drwxr-xr-x  7 babywyrm babywyrm  140 Jan 27 21:19 usr<br>drwxr-xr-x 11 babywyrm babywyrm  260 Jan 27 21:19 var<br></code></pre></td></tr></table></figure>
+Remediation:
+-> Set TypeNameHandling to None or implement strict SerializationBinder
+-->
 
-<img src="/HackTheBox-GiveBack-Linux-Medium/htb-giveback.png" class="" title="Nmap Scan width&#x3D;700">
+<p>In <strong>Part 1</strong>, we explored the basics of <strong>insecure deserialization in .NET</strong> and why it is considered a critical vulnerability.</p>
+<p>In this part, we focus on something every security researcher or .NET developer must recognize:</p>
+<blockquote>
+<p><strong>Dangerous serializers.</strong></p>
+</blockquote>
+<p>Some .NET formatters allow <strong>type metadata to be reconstructed during deserialization</strong>, which can enable attackers to trigger <strong>gadget chains leading to Remote Code Execution (RCE)</strong>.</p>
+<p>Understanding which serializers are dangerous is essential for both <strong>offensive security testing</strong> and <strong>defensive development</strong>.</p>
+<hr>
+<h2 id="Dangerous-NET-Deserializers"><a href="#Dangerous-NET-Deserializers" class="headerlink" title="Dangerous .NET Deserializers"></a>Dangerous .NET Deserializers</h2><p>Several legacy .NET serializers are considered <strong>unsafe by design</strong> when used with untrusted input.</p>
+<table>
+<thead>
+<tr>
+<th>Formatter</th>
+<th>Risk Level</th>
+<th>Format</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>BinaryFormatter</td>
+<td>🔴 VERY HIGH</td>
+<td>Binary</td>
+<td>Allows arbitrary object graph reconstruction</td>
+</tr>
+<tr>
+<td>LosFormatter</td>
+<td>🔴 HIGH</td>
+<td>SOAP XML</td>
+<td>Frequently abused in ASP.NET ViewState attacks</td>
+</tr>
+<tr>
+<td>NetDataContractSerializer</td>
+<td>🔴 HIGH</td>
+<td>ASP.NET ViewState format</td>
+<td>Includes full type information</td>
+</tr>
+<tr>
+<td>SoapFormatter</td>
+<td>🔴 HIGH</td>
+<td>XML with type metadata</td>
+<td>Deprecated and insecure</td>
+</tr>
+<tr>
+<td>ObjectStateFormatter</td>
+<td>🔴 HIGH</td>
+<td>ASP.NET ViewState binary format</td>
+<td>Used internally by ASP.NET for ViewState;<br>Vulnerable when ViewState MAC is disabled or bypassed</td>
+</tr>
+</tbody></table>
+<p>These serializers allow attackers to control <strong>types being instantiated</strong>, which makes them ideal targets for <strong>gadget-based exploitation</strong>.</p>
+<p>For example, tools like <strong>ysoserial.net</strong> generate payloads that exploit these formatters.</p>
+<hr>
+<h2 id="Why-They-Are-Dangerous"><a href="#Why-They-Are-Dangerous" class="headerlink" title="Why They Are Dangerous"></a>Why They Are Dangerous</h2><p>The core problem is <strong>type metadata handling</strong>.</p>
+<p>Many vulnerable serializers allow payloads containing something like:</p>
+<figure class="highlight elm"><table><tr><td class="code"><pre><code class="hljs elm">$<span class="hljs-keyword">type</span>: <span class="hljs-type">System</span>.<span class="hljs-type">SomeDangerousClass</span><br></code></pre></td></tr></table></figure>
 
+<p>During deserialization, the runtime may:</p>
+<ol>
+<li>Instantiate attacker-controlled types</li>
+<li>Trigger constructors</li>
+<li>Execute property setters</li>
+<li>Invoke dangerous gadget chains</li>
+</ol>
+<p>This process can ultimately lead to:</p>
+<ul>
+<li><strong>Remote Code Execution</strong></li>
+<li><strong>File operations</strong></li>
+<li><strong>Process spawning</strong></li>
+<li><strong>Network calls</strong></li>
+</ul>
+<hr>
+<h2 id="Safer-Serialization-Options"><a href="#Safer-Serialization-Options" class="headerlink" title="Safer Serialization Options"></a>Safer Serialization Options</h2><p>Modern .NET applications should prefer <strong>safe serializers that do not allow arbitrary type reconstruction</strong>.</p>
+<table>
+<thead>
+<tr>
+<th>Serializer</th>
+<th>Safety</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>System.Text.Json</td>
+<td>🟢 Safe</td>
+<td>No polymorphic type loading by default</td>
+</tr>
+<tr>
+<td>Newtonsoft.Json</td>
+<td>🟡 Generally Safe</td>
+<td>Unsafe if <code>TypeNameHandling</code> is enabled</td>
+</tr>
+</tbody></table>
+<p>⚠️ The risk with <strong>Newtonsoft.Json</strong> appears when developers enable:</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp">TypeNameHandling = TypeNameHandling.All<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="Secure-Configuration-Remediation"><a href="#Secure-Configuration-Remediation" class="headerlink" title="Secure Configuration (Remediation)"></a>Secure Configuration (Remediation)</h3><p>When using Newtonsoft.Json, follow these security practices:</p>
+<h4 id="Disable-Type-Name-Handling"><a href="#Disable-Type-Name-Handling" class="headerlink" title="Disable Type Name Handling"></a>Disable Type Name Handling</h4><figure class="highlight abnf"><table><tr><td class="code"><pre><code class="hljs abnf"><span class="hljs-attribute">TypeNameHandling</span> <span class="hljs-operator">=</span> TypeNameHandling.None<br></code></pre></td></tr></table></figure>
+
+<h4 id="Use-a-Strict-Serialization-Binder"><a href="#Use-a-Strict-Serialization-Binder" class="headerlink" title="Use a Strict Serialization Binder"></a>Use a Strict Serialization Binder</h4><p>Implement a whitelist of allowed types:</p>
+<figure class="highlight abnf"><table><tr><td class="code"><pre><code class="hljs abnf"><span class="hljs-attribute">SerializationBinder</span> <span class="hljs-operator">=</span> new KnownTypesBinder()<br></code></pre></td></tr></table></figure>
+
+<p>This prevents attackers from injecting arbitrary .NET classes during deserialization.</p>
+<h3 id="Key-Takeaways"><a href="#Key-Takeaways" class="headerlink" title="Key Takeaways"></a>Key Takeaways</h3><table>
+<thead>
+<tr>
+<th>Category</th>
+<th>Recommendation</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Legacy Formatters</td>
+<td>Avoid completely</td>
+</tr>
+<tr>
+<td>BinaryFormatter</td>
+<td>Never deserialize untrusted data</td>
+</tr>
+<tr>
+<td>JSON Libraries</td>
+<td>Prefer System.Text.Json</td>
+</tr>
+<tr>
+<td>Newtonsoft.Json</td>
+<td>Disable TypeNameHandling</td>
+</tr>
+</tbody></table>
+<h3 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h3><p>Insecure deserialization remains one of the most dangerous vulnerability classes in .NET applications.</p>
+<p>Recognizing risky serializers is the first step toward exploitation or prevention.</p>
+<p>Developers should:</p>
+<p>Avoid legacy formatters</p>
+<p>Use modern JSON serializers</p>
+<p>Strictly control type resolution</p>
+<p>Security testers should always check for these formatters when auditing ASP.NET and .NET applications.</p>
+<hr>
+<h2 id="Formatters"><a href="#Formatters" class="headerlink" title="Formatters"></a>Formatters</h2><p>What is a Formatter in .NET?</p>
+<p>A formatter is simply a class responsible for converting objects into serialized format and restoring them.</p>
+<p>They read serialized data and <strong>rebuild objects in memory</strong>.</p>
+<p>If the attacker controls the input → they can control <strong>which objects are created</strong>.</p>
+<h2 id="Dangerous-NET-Formatters-Used-in-RCE-chains"><a href="#Dangerous-NET-Formatters-Used-in-RCE-chains" class="headerlink" title="Dangerous .NET Formatters (Used in RCE chains)"></a>Dangerous .NET Formatters (Used in RCE chains)</h2><h3 id="BinaryFormatter"><a href="#BinaryFormatter" class="headerlink" title="BinaryFormatter"></a>BinaryFormatter</h3><p>-&gt; This category of attack cannot be mitigated with a SerializationBinder or any other BinaryFormatter configuration switch.<br>-&gt; When application does something like <code>BinaryFormatter.Deserialize(stream);</code><br>It reconstructs objects.<br>If attacker controls that stream:</p>
+<ul>
+<li>They control which object is reconstructed</li>
+<li>They may choose a gadget chain class</li>
+<li>That class may lead to a sink</li>
+</ul>
+<p>That’s how .NET deserialization RCE happens.</p>
+<p><strong><strong>Why is BinaryFormatter dangerous?</strong></strong></p>
+<ul>
+<li>Because it allows full type deserialization and if attacker controls the input, they can instantiate arbitrary classes available in the application domain, which may trigger dangerous methods during object reconstruction.</li>
+</ul>
+<p>BinaryFormatter is obsolete and insecure in modern .NET. Microsoft recommends alternatives like:</p>
+<ul>
+<li>System.Text.Json</li>
+<li>XmlSerializer</li>
+<li>DataContractSerializer</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Namespace</th>
+<th><code>System.Runtime.Serialization.Formatters.Binary</code></th>
+</tr>
+</thead>
+</table>
+<p>Usage:</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp">BinaryFormatter formatter = <span class="hljs-keyword">new</span> BinaryFormatter();<br><span class="hljs-built_in">object</span> obj = formatter.Deserialize(stream);<br></code></pre></td></tr></table></figure>
+
+<p>What BinaryFormatter Does:</p>
+<ol>
+<li>Reads <strong>type metadata from serialized data</strong></li>
+<li>Instantiates <strong>any class available in the application</strong></li>
+<li>Executes special methods automatically</li>
+</ol>
+<p>Example:</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp">Serialized data → contains type info → .NET loads that <span class="hljs-keyword">class</span> <br>→ <span class="hljs-title">constructor</span> / <span class="hljs-title">callbacks</span> <span class="hljs-title">execute</span><br></code></pre></td></tr></table></figure>
+
+<p>Example attack flow</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp">Attacker sends malicious serialized payload<br>     ↓<br>BinaryFormatter.Deserialize()<br>     ↓<br>.NET creates dangerous <span class="hljs-built_in">object</span><br>     ↓<br>Gadget executes Process.Start()<br>     ↓<br>Remote Code Execution<br></code></pre></td></tr></table></figure>
+
+<p>Example vulnerable code:</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><code class="hljs csharp"><span class="hljs-function"><span class="hljs-keyword">public</span> IActionResult <span class="hljs-title">Upload</span>(<span class="hljs-params">IFormFile <span class="hljs-keyword">file</span></span>)</span><br>&#123;<br>    BinaryFormatter formatter = <span class="hljs-keyword">new</span> BinaryFormatter();<br>    formatter.Deserialize(<span class="hljs-keyword">file</span>.OpenReadStream());<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>If attacker uploads <strong>serialized payload</strong> → <strong>RCE</strong>.</p>
+<p>→Never use BinaryFormatter with untrusted data.</p>
+<h3 id="SoapFormatter"><a href="#SoapFormatter" class="headerlink" title="SoapFormatter"></a>SoapFormatter</h3><h3 id="LosFormatter"><a href="#LosFormatter" class="headerlink" title="LosFormatter"></a>LosFormatter</h3><h3 id="NetDataContractSerializer"><a href="#NetDataContractSerializer" class="headerlink" title="NetDataContractSerializer"></a>NetDataContractSerializer</h3><h2 id="Create-a-sample-vulnerable-NET-web-app-Test-with-YSoSerial-net"><a href="#Create-a-sample-vulnerable-NET-web-app-Test-with-YSoSerial-net" class="headerlink" title="Create a sample vulnerable .NET web app &amp; Test with YSoSerial.net"></a>Create a sample vulnerable .NET web app &amp; Test with YSoSerial.net</h2><p>Example payload generation:</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">ysoserial.net -f BinaryFormatter -g TypeConfuseDelegate -c <span class="hljs-string">&quot;calc.exe&quot;</span><br></code></pre></td></tr></table></figure>
 
 ]]></content>
-      <categories>
-        <category>CTF</category>
-      </categories>
-      <tags>
-        <tag>HackTheBox</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>HackTheBox - Json (Windows/Medium)</title>
-    <url>/HackTheBox-Json-Windows-Medium/</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
-    <title>HackTheBox - Signed writeup (Windows/Medium)</title>
-    <url>/HackTheBox-Signed-writeup-Windows-Medium/</url>
-    <content><![CDATA[]]></content>
-      <categories>
-        <category>CTF</category>
-        <category>Medium</category>
-        <category>HackTheBox</category>
-        <category>Windows</category>
-      </categories>
-      <tags>
-        <tag>SMB</tag>
-        <tag>Silver Ticket</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>HackTheBox - Soulmate (Linux/Easy)</title>
-    <url>/HackTheBox-Soulmate-Linux-Easy/</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
-    <title>HackTheBox - WingData (Linux/Easy)</title>
-    <url>/HackTheBox-WingData-Linux-Easy/</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
-    <title>Vulnlab - Breach</title>
-    <url>/Vulnlab-Breach/</url>
-    <content><![CDATA[]]></content>
   </entry>
 </search>
