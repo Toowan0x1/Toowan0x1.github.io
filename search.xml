@@ -56,9 +56,9 @@ Remediation:
 </tr>
 <tr>
 <td>ObjectStateFormatter</td>
-<td>-</td>
-<td>-</td>
-<td>-</td>
+<td>🔴 HIGH</td>
+<td>ASP.NET ViewState binary format</td>
+<td>Used internally by ASP.NET for ViewState;<br>Vulnerable when ViewState MAC is disabled or bypassed</td>
 </tr>
 </tbody></table>
 <p>These serializers allow attackers to control <strong>types being instantiated</strong>, which makes them ideal targets for <strong>gadget-based exploitation</strong>.</p>
@@ -208,10 +208,10 @@ Remediation:
 <ul>
 <li>The fundamentals of .NET deserialization</li>
 <li>Gadget chains and serializers</li>
-<li>Tools such as ysoserial.net</li>
+<li>ysoserial.net tool</li>
 <li>How to build a vulnerable ASP.NET lab for testing</li>
 </ul>
-<h2 id="Insecure-Deserialization-in-NET-–-Definition-Key-Concepts-Tools-and-Exploitation-Flow"><a href="#Insecure-Deserialization-in-NET-–-Definition-Key-Concepts-Tools-and-Exploitation-Flow" class="headerlink" title="Insecure Deserialization in .NET – Definition, Key Concepts, Tools, and Exploitation Flow"></a>Insecure Deserialization in .NET – Definition, Key Concepts, Tools, and Exploitation Flow</h2><h3 id="Definition"><a href="#Definition" class="headerlink" title="Definition"></a>Definition</h3><p>This vulnerability occurs when an application deserializes untrusted data without proper validation. -&gt; when the target application uses vulnerable libraries, framework classes, or built-in platform classes that can be abused during deserialization.</p>
+<h2 id="Insecure-Deserialization-in-NET-–-Definition-Key-Concepts-Tools-and-Exploitation-Flow"><a href="#Insecure-Deserialization-in-NET-–-Definition-Key-Concepts-Tools-and-Exploitation-Flow" class="headerlink" title="Insecure Deserialization in .NET – Definition, Key Concepts, Tools, and Exploitation Flow"></a>Insecure Deserialization in .NET – Definition, Key Concepts, Tools, and Exploitation Flow</h2><h3 id="Definition"><a href="#Definition" class="headerlink" title="Definition"></a>Definition</h3><p>This vulnerability occurs when an application deserializes untrusted data without proper validation. this can happen when the target application uses vulnerable libraries, framework classes, or built-in platform classes that can be abused during deserialization.</p>
 <p>During deserialization, the application reconstructs objects from serialized data. In some cases, special methods (such as constructors or deserialization callbacks like OnDeserialized) may be automatically executed.</p>
 <p>If an attacker can control the serialized data, they may craft a malicious object that triggers unintended code execution during the deserialization process.</p>
 <p>A vulnerable class that can be abused during deserialization is called a <strong>gadget</strong>.</p>
@@ -220,7 +220,8 @@ Remediation:
 <li>Gadget and Gadget Chain</li>
 <li>Serializers &#x2F; Formatters</li>
 </ul>
-<h4 id="Gadget"><a href="#Gadget" class="headerlink" title="Gadget:"></a>Gadget:</h4><ul>
+<h4 id="Gadget"><a href="#Gadget" class="headerlink" title="Gadget:"></a>Gadget:</h4><p>   Console.WriteLine(user.Name);</p>
+<ul>
 <li>A legitimate framework class that can be abused during deserialization to execute unintended behavior.</li>
 </ul>
 <h4 id="Gadget-chain"><a href="#Gadget-chain" class="headerlink" title="Gadget chain:"></a>Gadget chain:</h4><ul>
@@ -281,6 +282,14 @@ Remediation:
 <td>binary</td>
 </tr>
 <tr>
+<td>Console.WriteLine(user.Name);</td>
+<td></td>
+</tr>
+<tr>
+<td>Tools such as ysoserial.net</td>
+<td></td>
+</tr>
+<tr>
 <td>SoapFormatter</td>
 <td>SOAP XML</td>
 </tr>
@@ -303,18 +312,18 @@ Remediation:
 <p>Key points:</p>
 <ul>
 <li>It generates serialized payloads</li>
-<li>It relies on existing gadget chains to trigger code execution when deserialized.</li>
+<li>It relies on existing gadget chains to trigger code execution when deserialized.<br> Console.WriteLine(user.Name);</li>
 <li>It embeds a command string inside serialized object</li>
 </ul>
-<p>Tool repository: <a href="https://github.com/pwntester/ysoserial.net">https://github.com/pwntester/ysoserial.net</a></p>
-<h3 id="Exploitation-Attack-flow"><a href="#Exploitation-Attack-flow" class="headerlink" title="Exploitation (Attack flow)"></a>Exploitation (Attack flow)</h3><p>During deserialization:</p>
+<p>Official GitHub repository: <a href="https://github.com/pwntester/ysoserial.net">https://github.com/pwntester/ysoserial.net</a></p>
+<h3 id="Exploitation-Attack-flow"><a href="#Exploitation-Attack-flow" class="headerlink" title="Exploitation (Attack flow)"></a>Exploitation (Attack flow)</h3><h4 id="What-happen-internally"><a href="#What-happen-internally" class="headerlink" title="What happen internally?"></a>What happen internally?</h4><p>During deserialization:</p>
 <ol>
 <li>The application reconstructs objects from user input</li>
 <li>Some objects execute code automatically during construction or property initialization</li>
 <li>If the attacker controls the object data, this behavior can be abused</li>
 </ol>
 <p>If the attacker controls <strong>both the object type and its data</strong>, a gadget chain may execute dangerous functionality.</p>
-<h4 id="Example"><a href="#Example" class="headerlink" title="Example:"></a>Example:</h4><p>A gadget might:</p>
+<p><strong>Example</strong>:<br>A gadget might:</p>
 <ul>
 <li>Accept method name</li>
 <li>Accept parameters</li>
@@ -346,7 +355,7 @@ Remediation:
 <li>A vulnerable deserialization endpoint</li>
 <li>The right gadget chain matching the target’s libraries</li>
 </ul>
-<h2 id="Preparing-our-ASP-NET-Lab-to-Test-Deserialization-Attacks-on-NET"><a href="#Preparing-our-ASP-NET-Lab-to-Test-Deserialization-Attacks-on-NET" class="headerlink" title="Preparing our ASP.NET Lab to Test Deserialization Attacks on .NET"></a>Preparing our ASP.NET Lab to Test Deserialization Attacks on .NET</h2><p>ASP.NET is a web framework developed by Microsoft. It is used to build, Web applications, APIs, Enterprise systems, and Internal company portals.</p>
+<h2 id="Environment-Setup-Preparing-our-ASP-NET-Lab-to-Test-Deserialization-Attacks-on-NET"><a href="#Environment-Setup-Preparing-our-ASP-NET-Lab-to-Test-Deserialization-Attacks-on-NET" class="headerlink" title="Environment Setup: Preparing our ASP.NET Lab to Test Deserialization Attacks on .NET"></a>Environment Setup: Preparing our ASP.NET Lab to Test Deserialization Attacks on .NET</h2><p>ASP.NET is a web framework developed by Microsoft. It is used to build, Web applications, APIs, Enterprise systems, and Internal company portals.</p>
 <h3 id="Installing-NET-SDK-on-linux"><a href="#Installing-NET-SDK-on-linux" class="headerlink" title="Installing .NET SDK on linux"></a>Installing .NET SDK on linux</h3><p>First you have to update your system with <code>sudo apt update</code> and <code>sudo apt upgrade</code>.</p>
 <p>Install the SDK:</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> apt install -y dotnet-sdk-6.0<br></code></pre></td></tr></table></figure>
@@ -379,49 +388,81 @@ Remediation:
 <figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">dotnet new web -n &lt;dotnet_appName&gt;<br></code></pre></td></tr></table></figure>
 
 <h3 id="Project-Structure-Overview"><a href="#Project-Structure-Overview" class="headerlink" title="Project Structure - Overview"></a>Project Structure - Overview</h3><figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">$ <span class="hljs-built_in">ls</span><br>appsettings.Development.json<br>appsettings.json<br>obj/<br>Program.cs<br>Properties/<br>webapp.csproj<br></code></pre></td></tr></table></figure>
-<p>Explanation:</p>
-<table>
-<thead>
-<tr>
-<th>File</th>
-<th>Purpose</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>Program.cs</td>
-<td>Main application code</td>
-</tr>
-<tr>
-<td>webapp.csproj</td>
-<td>Project configuration</td>
-</tr>
-<tr>
-<td>appsettings.json</td>
-<td>Application settings</td>
-</tr>
-<tr>
-<td>Properties&#x2F;</td>
-<td>launch settings</td>
-</tr>
-<tr>
-<td>obj&#x2F;</td>
-<td>build artifacts</td>
-</tr>
-</tbody></table>
-<h4 id="Viewing-the-main-application-file"><a href="#Viewing-the-main-application-file" class="headerlink" title="Viewing the main application file"></a>Viewing the main application file</h4><p>Program.cs:</p>
-<figure class="highlight cs"><table><tr><td class="code"><pre><code class="hljs cs"><span class="hljs-keyword">var</span> builder = WebApplication.CreateBuilder(<span class="hljs-keyword">args</span>);<br><span class="hljs-keyword">var</span> app = builder.Build();<br><br>app.MapGet(<span class="hljs-string">&quot;/&quot;</span>, () =&gt; <span class="hljs-string">&quot;Hello World!&quot;</span>);<br><br>app.Run();<br></code></pre></td></tr></table></figure>
+<p>We have <code>Program.cs</code> which is the application main file:</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">$ <span class="hljs-built_in">cat</span> Program.cs<br>var builder = WebApplication.CreateBuilder(args);<br>var app = builder.Build();<br><br>app.MapGet(<span class="hljs-string">&quot;/&quot;</span>, () =&gt; <span class="hljs-string">&quot;Hello World!&quot;</span>);<br><br>app.Run();<br></code></pre></td></tr></table></figure>
 
-<p>That’s will:</p>
+<p>So, that’s endpoint basically will:</p>
 <ul>
 <li>Creates an endpoint &#x2F;</li>
-<li>Returns “Hello World!” on that endpoint</li>
+<li>Returns <strong>“Hello World!”</strong> when a client access the endpoint with GET request</li>
 </ul>
 <p>Running the application: <code>dotnet run --urls=http://0.0.0.0:5000</code> and then curl:</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">$ curl http://localhost:5000<br>Hello World!<br></code></pre></td></tr></table></figure>
-
+<p>As you can see, all good now. </p>
 <p>Now we can create endpoints like <code>/deserialize</code>, <code>/api/test</code>, etc. for testing our <strong>.NET deserialization attacks and web vulnerabilities</strong>.</p>
-<p>We gonna see <strong>a small vulnerable .NET endpoint</strong> I’ll add it to <code>Program.cs</code> to test <strong>insecure deserialization</strong>.</p>
-<h2 id="Hack-The-Box-Machines-Related-to-Deserialization-Attacks"><a href="#Hack-The-Box-Machines-Related-to-Deserialization-Attacks" class="headerlink" title="Hack The Box Machines Related to Deserialization Attacks"></a>Hack The Box Machines Related to Deserialization Attacks</h2><p>The following Hack The Box machines contains vulnerabilities and techniques related to <strong>.NET and Java deserialization attacks</strong>, gadget chains, or cryptographic key exploitation (e.g., ViewState &#x2F; MachineKey abuse).</p>
+<p>We are going to create samples of <strong>small vulnerable .NET endpoints</strong> in <code>Program.cs</code> file to test <strong>insecure deserialization</strong>.</p>
+<h2 id="Newtonsoft-Json-TypeNameHandling-exploit"><a href="#Newtonsoft-Json-TypeNameHandling-exploit" class="headerlink" title="Newtonsoft.Json TypeNameHandling exploit"></a>Newtonsoft.Json TypeNameHandling exploit</h2><p>I created an endpoint in the <code>Program.cs</code> file as you see here:</p>
+<figure class="highlight cs"><table><tr><td class="code"><pre><code class="hljs cs">app.MapPost(<span class="hljs-string">&quot;/Deserialize&quot;</span>, <span class="hljs-keyword">async</span> (HttpContext context) =&gt;<br>&#123;<br>    <span class="hljs-keyword">using</span> <span class="hljs-keyword">var</span> reader = <span class="hljs-keyword">new</span> StreamReader(context.Request.Body);<br>    <span class="hljs-keyword">var</span> body = <span class="hljs-keyword">await</span> reader.ReadToEndAsync();<br><br>    Console.WriteLine(body);<br><br>    <span class="hljs-keyword">var</span> settings = <span class="hljs-keyword">new</span> JsonSerializerSettings<br>    &#123;<br>        TypeNameHandling = TypeNameHandling.All<br>    &#125;;<br><br>    <span class="hljs-keyword">var</span> obj = JsonConvert.DeserializeObject(body, settings);<br><br>    <span class="hljs-keyword">return</span> Results.Ok(<span class="hljs-string">&quot;Deserialized!&quot;</span>);<br>&#125;);<br></code></pre></td></tr></table></figure>
+
+<p>So, we have <code>/deserialize</code> endpoint which read the raw request body and deserialize it using <code>JsonConvert.DeserializeObject</code>.</p>
+<p>The important part here is <code>TypeNameHandling</code> is set to <code>All</code>. This allows the JSON payload to specify the .NET type through the $type field, which can lead to insecure deserialization if untrusted input is processed.</p>
+<p>To test this behavior, I’ll send a POST request to the endpoint using the following <code>curl</code> command: </p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">curl -X POST http://localhost:5000/deserialize \<br>    -H <span class="hljs-string">&#x27;Content-Type: application/json&#x27;</span> \<br>    -d <span class="hljs-string">&#x27;&#123;&quot;$type&quot;: &quot;Dangerous&quot;, &quot;Command&quot;: &quot;whoami&quot;, &quot;Name&quot;: &quot;hello&quot;&#125;&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<p>and this the output of what curl gave me:</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">Newtonsoft.Json.JsonSerializationException: Type specified <span class="hljs-keyword">in</span> JSON <span class="hljs-string">&#x27;Dangerous&#x27;</span> was not resolved. Path <span class="hljs-string">&#x27;$type&#x27;</span>, line 1, position 21.<br>   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.ResolveTypeName(JsonReader reader, Type&amp; objectType, JsonContract&amp; contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, String qualifiedTypeName)<br>   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.ReadMetadataProperties(JsonReader reader, Type&amp; objectType, JsonContract&amp; contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue, Object&amp; newValue, String&amp; <span class="hljs-built_in">id</span>)<br>   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateObject(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)<br>   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateValueInternal(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)<br>   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.Deserialize(JsonReader reader, Type objectType, Boolean checkAdditionalContent)<br>   at Newtonsoft.Json.JsonSerializer.DeserializeInternal(JsonReader reader, Type objectType)<br>   at Newtonsoft.Json.JsonSerializer.Deserialize(JsonReader reader, Type objectType)<br>   at Newtonsoft.Json.JsonConvert.DeserializeObject(String value, Type <span class="hljs-built_in">type</span>, JsonSerializerSettings settings)<br>   at Newtonsoft.Json.JsonConvert.DeserializeObject(String value, JsonSerializerSettings settings)<br>   at Program.&lt;&gt;c.&lt;&lt;&lt;<span class="hljs-string">Main&gt;$&gt;b__0_3&gt;d.MoveNext() in /home/toowan/Desktop/VulnDeserApp/Program.cs:line 42</span><br><span class="hljs-string">--- End of stack trace from previous location ---</span><br><span class="hljs-string">   at Microsoft.AspNetCore.Http.RequestDelegateFactory.ExecuteTaskResult[T](Task`1 task, HttpContext httpContext)</span><br><span class="hljs-string">   at Microsoft.AspNetCore.Routing.EndpointMiddleware.&lt;Invoke&gt;g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)</span><br><span class="hljs-string">   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)</span><br><span class="hljs-string"></span><br><span class="hljs-string">HEADERS</span><br><span class="hljs-string">=======</span><br><span class="hljs-string">Accept: */*</span><br><span class="hljs-string">Host: localhost:5000</span><br><span class="hljs-string">User-Agent: curl/8.18.0</span><br><span class="hljs-string">Content-Type: application/json</span><br><span class="hljs-string">Content-Length: 60</span><br></code></pre></td></tr></table></figure>
+
+<p>The error message above tell us exactly what happened during the deserialization process of the provided JSON payload.</p>
+<p>and based on the revealed errors, we understand that the application resolved the <code>$type</code> specified in the JSON payload but failed because the type <strong>Dangerous</strong> not found.</p>
+<p>Also, the stack trace clearly shows that the error comes from the <strong>Newtonsoft.Json</strong> library during the <strong>deserialization process</strong>. This confirms that the request body was processed, and the <code>$type</code> field was read by the application.</p>
+<h3 id="What-happens-internally-during-deserialization"><a href="#What-happens-internally-during-deserialization" class="headerlink" title="What happens internally during deserialization ?"></a>What happens internally during deserialization ?</h3><p>When the server receives</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash"><span class="hljs-string">&quot;<span class="hljs-variable">$type</span>&quot;</span>: <span class="hljs-string">&quot;VulnDeserApp.Dangerous, VulnDeserApp&quot;</span><br></code></pre></td></tr></table></figure>
+
+<p>the runtime essentially does something like</p>
+<figure class="highlight ada"><table><tr><td class="code"><pre><code class="hljs ada"><span class="hljs-keyword">Type</span>.getType(<span class="hljs-string">&quot;VulnDeserApp.Dangerous, VulnDeserApp&quot;</span>)<br></code></pre></td></tr></table></figure>
+
+<p>Then it creates the object dynamically</p>
+<figure class="highlight lasso"><table><tr><td class="code"><pre><code class="hljs lasso">Activator.CreateInstance(<span class="hljs-params">...</span>)<br></code></pre></td></tr></table></figure>
+
+<p>and then set the properties from JSON.</p>
+<h2 id="How-attackers-discover-the-correct-type"><a href="#How-attackers-discover-the-correct-type" class="headerlink" title="How attackers discover the correct $type"></a>How attackers discover the correct $type</h2><p>In real pentest attackers find the correct type by:</p>
+<h3 id="①-Information-Disclosure-via-Error-Messages"><a href="#①-Information-Disclosure-via-Error-Messages" class="headerlink" title="① Information Disclosure via Error Messages"></a>① Information Disclosure via Error Messages</h3><p>Is like our example above, Stack traces often reveals:</p>
+<ul>
+<li><code>Namespaces names</code></li>
+<li><code>Assembly names</code></li>
+<li><code>File system paths</code></li>
+</ul>
+<p>Example indicators in stack traces:</p>
+<figure class="highlight stylus"><table><tr><td class="code"><pre><code class="hljs stylus">Namespace<span class="hljs-selector-class">.ClassName</span><br>AssemblyName<span class="hljs-selector-class">.dll</span><br>/home/app/bin<br></code></pre></td></tr></table></figure>
+<p>These details help attackers constructs valid <strong>$type</strong> values.</p>
+<h3 id="②-Accessible-Application-Files-DLL-downloads"><a href="#②-Accessible-Application-Files-DLL-downloads" class="headerlink" title="② Accessible Application Files &#x2F; DLL downloads"></a>② Accessible Application Files &#x2F; DLL downloads</h3><p>Sometimes these files are accessible:</p>
+<p>Attackers may attempt to access directories such as:</p>
+<ul>
+<li><code>/bin/</code></li>
+<li><code>/api/</code></li>
+<li><code>/swagger</code></li>
+</ul>
+<p>If <code>.dll</code> files are exposed, attackers may try to analyze them to identify:</p>
+<ul>
+<li>Available classes</li>
+<li>Namespaces</li>
+<li>Assembly names</li>
+</ul>
+<p>These components are required to construct valid <strong>$type</strong> payloads.</p>
+<h3 id="③-Public-Gadget-Classes-From-NET-Framework"><a href="#③-Public-Gadget-Classes-From-NET-Framework" class="headerlink" title="③ Public Gadget Classes From .NET Framework"></a>③ Public Gadget Classes From .NET Framework</h3><p>In many cases, attackers don’t even need application assemblies at all. Instead, they use built-in classes from <strong>.NET Framework</strong> that are already available on the server.</p>
+<p>Some commonly available assemblies include:</p>
+<ul>
+<li><code>System.Data</code></li>
+<li><code>PresentationFramework</code></li>
+</ul>
+<p>These assemblies contain classes that may act as <strong>deserialization gadgets</strong>, which can lead to command execution during deserialization process.</p>
+<p>A well-known gadget in .NET deserialization is the <code>ObjectDataProvider</code> class from the <code>PresentationFramework</code> assembly.</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><code class="hljs text">System.Windows.Data.ObjectDataProvider, PresentationFramework<br></code></pre></td></tr></table></figure>
+
+<p>This <code>ObjectDataProvider</code> can be abused to invoke arbitary methods during deserialization, which may lead to command execution.</p>
+<p>This is how gadget chains work.</p>
+<h3 id="④-Automated-Gadget-Discovery-Tools"><a href="#④-Automated-Gadget-Discovery-Tools" class="headerlink" title="④ Automated Gadget Discovery Tools"></a>④ Automated Gadget Discovery Tools</h3><p>Security researchers often rely on tools such as <strong>ysoserial.net</strong> to generate deserialization payloads using known gadget chains.</p>
+<h2 id="Some-Useful-Resources"><a href="#Some-Useful-Resources" class="headerlink" title="Some Useful Resources"></a>Some Useful Resources</h2><h3 id="Hack-The-Box-Machines-Related-to-Deserialization-Attacks"><a href="#Hack-The-Box-Machines-Related-to-Deserialization-Attacks" class="headerlink" title="Hack The Box Machines Related to Deserialization Attacks"></a>Hack The Box Machines Related to Deserialization Attacks</h3><p>The following Hack The Box machines contains vulnerabilities and techniques related to <strong>.NET and Java deserialization attacks</strong>, gadget chains, or cryptographic key exploitation (e.g., ViewState &#x2F; MachineKey abuse).</p>
 <table>
 <thead>
 <tr>
@@ -486,6 +527,13 @@ Remediation:
 <td>JWT, FFmpeg Vulnerability, CVE (SSH), PHP Deserialization Vulnerability</td>
 </tr>
 </tbody></table>
+<h3 id="Vedios-Resources"><a href="#Vedios-Resources" class="headerlink" title="Vedios Resources"></a>Vedios Resources</h3><ul>
+<li><a href="https://www.youtube.com/watch?v=eDfGpu3iE4Q">Attacking .NET deserialization - Alvaro Muñoz</a></li>
+<li><a href="https://www.youtube.com/watch?v=oxlD8VWWHE8">BlueHat v17 || Dangerous Contents - Securing .Net Deserialization</a></li>
+</ul>
+<h3 id="PortSwigger-Blog"><a href="#PortSwigger-Blog" class="headerlink" title="PortSwigger Blog"></a>PortSwigger Blog</h3><ul>
+<li><a href="https://portswigger.net/web-security/deserialization/exploiting#gadget-chains">https://portswigger.net/web-security/deserialization/exploiting#gadget-chains</a></li>
+</ul>
 ]]></content>
       <categories>
         <category>Web</category>
@@ -498,6 +546,8 @@ Remediation:
         <tag>Gadget Chains</tag>
         <tag>ysoserial.net</tag>
         <tag>BinaryFormatter</tag>
+        <tag>Newtonsoft.Json</tag>
+        <tag>TypeNameHandling</tag>
       </tags>
   </entry>
   <entry>
@@ -549,13 +599,13 @@ Remediation:
       </tags>
   </entry>
   <entry>
-    <title>HackTheBox - WingData (Linux/Easy)</title>
-    <url>/HackTheBox-WingData-Linux-Easy/</url>
+    <title>HackTheBox - Soulmate (Linux/Easy)</title>
+    <url>/HackTheBox-Soulmate-Linux-Easy/</url>
     <content><![CDATA[]]></content>
   </entry>
   <entry>
-    <title>HackTheBox - Soulmate (Linux/Easy)</title>
-    <url>/HackTheBox-Soulmate-Linux-Easy/</url>
+    <title>HackTheBox - WingData (Linux/Easy)</title>
+    <url>/HackTheBox-WingData-Linux-Easy/</url>
     <content><![CDATA[]]></content>
   </entry>
   <entry>

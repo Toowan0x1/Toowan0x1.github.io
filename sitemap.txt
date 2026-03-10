@@ -1,5 +1,5 @@
-https://toowan0x1.github.io/Attacking-NET-Deserialization-II/
 https://toowan0x1.github.io/Attacking-NET-Deserialization/
+https://toowan0x1.github.io/Attacking-NET-Deserialization-II/
 https://toowan0x1.github.io/HackTheBox-Json-Windows-Medium/
 https://toowan0x1.github.io/about/index.html
 https://toowan0x1.github.io/HackTheBox-Soulmate-Linux-Easy/
@@ -22,6 +22,8 @@ https://toowan0x1.github.io/tags/ASP-NET/
 https://toowan0x1.github.io/tags/Gadget-Chains/
 https://toowan0x1.github.io/tags/ysoserial-net/
 https://toowan0x1.github.io/tags/BinaryFormatter/
+https://toowan0x1.github.io/tags/Newtonsoft-Json/
+https://toowan0x1.github.io/tags/TypeNameHandling/
 https://toowan0x1.github.io/tags/HackTheBox/
 https://toowan0x1.github.io/tags/SMB/
 https://toowan0x1.github.io/tags/Silver-Ticket/
