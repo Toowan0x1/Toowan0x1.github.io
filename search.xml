@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>Attacking Insecure Deserialization in .NET — Part 1: Fundamentals and Lab Setup</title>
+    <title>Attacking Insecure Deserialization in .NET — Part 1: Fundamentals, Lab Setup, and $type Metadata</title>
     <url>/Attacking-NET-Deserialization/index/</url>
     <content><![CDATA[<!-- <img src="/img/error-page.png"></img> -->
 
@@ -13,6 +13,7 @@
 <li>ysoserial.net tool</li>
 <li>How to build a vulnerable ASP.NET lab for testing</li>
 </ul>
+<hr>
 <h2 id="Insecure-Deserialization-in-NET-–-Definition-Key-Concepts-Tools-and-Exploitation-Flow"><a href="#Insecure-Deserialization-in-NET-–-Definition-Key-Concepts-Tools-and-Exploitation-Flow" class="headerlink" title="Insecure Deserialization in .NET – Definition, Key Concepts, Tools, and Exploitation Flow"></a>Insecure Deserialization in .NET – Definition, Key Concepts, Tools, and Exploitation Flow</h2><h3 id="Definition"><a href="#Definition" class="headerlink" title="Definition"></a>Definition</h3><p>This vulnerability occurs when an application deserializes untrusted data without proper validation. this can happen when the target application uses vulnerable libraries, framework classes, or built-in platform classes that can be abused during deserialization.</p>
 <p>During deserialization, the application reconstructs objects from serialized data. In some cases, special methods (such as constructors or deserialization callbacks like OnDeserialized) may be automatically executed.</p>
 <p>If an attacker can control the serialized data, they may craft a malicious object that triggers unintended code execution during the deserialization process.</p>
@@ -134,6 +135,7 @@
 <li>A vulnerable deserialization endpoint</li>
 <li>The right gadget chain matching the target’s libraries</li>
 </ul>
+<hr>
 <h2 id="Environment-Setup-Preparing-our-ASP-NET-Lab-to-Test-Deserialization-Attacks-on-NET"><a href="#Environment-Setup-Preparing-our-ASP-NET-Lab-to-Test-Deserialization-Attacks-on-NET" class="headerlink" title="Environment Setup: Preparing our ASP.NET Lab to Test Deserialization Attacks on .NET"></a>Environment Setup: Preparing our ASP.NET Lab to Test Deserialization Attacks on .NET</h2><p>ASP.NET is a web framework developed by Microsoft. It is used to build, Web applications, APIs, Enterprise systems, and Internal company portals.</p>
 <h3 id="Installing-NET-SDK-on-linux"><a href="#Installing-NET-SDK-on-linux" class="headerlink" title="Installing .NET SDK on linux"></a>Installing .NET SDK on linux</h3><p>First you have to update your system with <code>sudo apt update</code> and <code>sudo apt upgrade</code>.</p>
 <p>Install the SDK:</p>
@@ -546,5 +548,24 @@ Remediation:
 <figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">ysoserial.net -f BinaryFormatter -g TypeConfuseDelegate -c <span class="hljs-string">&quot;calc.exe&quot;</span><br></code></pre></td></tr></table></figure>
 
 ]]></content>
+  </entry>
+  <entry>
+    <title>Attacking Insecure Deserialization in .NET — Part 3: Formatters, machinekey and __ViewState abuse</title>
+    <url>/Attacking-NET-Deserialization-III/index/</url>
+    <content><![CDATA[]]></content>
+      <categories>
+        <category>Web</category>
+        <category>Deserialization</category>
+      </categories>
+      <tags>
+        <tag>Insecure Deserialization</tag>
+        <tag>.NET</tag>
+        <tag>ASP.NET</tag>
+        <tag>Gadget Chains</tag>
+        <tag>ysoserial.net</tag>
+        <tag>BinaryFormatter</tag>
+        <tag>Newtonsoft.Json</tag>
+        <tag>TypeNameHandling</tag>
+      </tags>
   </entry>
 </search>
