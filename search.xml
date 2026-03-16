@@ -67,22 +67,12 @@
 <li>SoapFormatter &#x3D;&gt; SOAP XML</li>
 <li>LosFormatter &#x3D;&gt; ASP.NET ViewState</li>
 </ul>
-<p>So the relationship is:</p>
-<ul>
-<li><strong>Serializer</strong> → general concept (object ↔ data representation)</li>
-<li><strong>Formatter</strong> -&gt; a specific .NET implementation of serialization for a particular format.</li>
-</ul>
+<p>So the relationship is:<br><strong>Serializer</strong> → general concept (object ↔ data representation)<br><strong>Formatter</strong> → a specific .NET implementation of serialization for a particular format.</p>
 <h3 id="Tools-ysoserial-net"><a href="#Tools-ysoserial-net" class="headerlink" title="Tools: ysoserial.net"></a>Tools: ysoserial.net</h3><p>A tool used to generate malicious serialized payloads for testing .NET deserialization vulnerabilities.</p>
 <ul>
 <li>Contains a collection of known <strong>gadget chains</strong> (e.g., <code>TypeConfuseDelegate</code>, <code>ActivitySurrogateSelector</code>, <code>ObjectDataProvider</code>).</li>
-<li>Generates serialized objects that embed a command within the payload.</li>
+<li>Generates serialized objects that embed a command within the payload to trigger code execution during the deserialized process.</li>
 <li>Used for <strong>security testing and research</strong> of insecure deserialization.</li>
-</ul>
-<p>Key points:</p>
-<ul>
-<li>Generates serialized payloads</li>
-<li>Relies on existing gadget chains to trigger code execution during the deserialized process.</li>
-<li>It embeds a command string inside serialized object</li>
 </ul>
 <p>Official GitHub repository: <a href="https://github.com/pwntester/ysoserial.net">https://github.com/pwntester/ysoserial.net</a></p>
 <h3 id="Exploitation-Attack-flow"><a href="#Exploitation-Attack-flow" class="headerlink" title="Exploitation (Attack flow)"></a>Exploitation (Attack flow)</h3><h4 id="What-happen-internally"><a href="#What-happen-internally" class="headerlink" title="What happen internally?"></a>What happen internally?</h4><p>During deserialization:</p>
