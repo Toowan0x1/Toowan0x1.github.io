@@ -24,32 +24,35 @@
 <li>Gadget Chain and Sink</li>
 <li>Serializers &#x2F; Formatters</li>
 </ul>
-<h4 id="Gadget"><a href="#Gadget" class="headerlink" title="Gadget:"></a>Gadget:</h4><p>Gadget is a legitimate framework class that can be abused during deserialization to execute unintended behavior. They usually come from <code>Third-party libraries</code>, <code>Framework classes</code>, or <code>Built-in platform classes</code>.</p>
-<p>PS. Not every class is a gadget.</p>
-<p>A class becomes a gadget if:</p>
+<h4 id="Gadget"><a href="#Gadget" class="headerlink" title="Gadget:"></a>Gadget:</h4><p>Gadget is a legitimate <strong>method&#x2F;property&#x2F;constructor</strong> that lives within a class and can be abused during deserialization to execute unintended behavior. They usually come from <code>Third-party libraries</code>, <code>Framework classes</code>, or <code>Built-in platform classes</code>.</p>
+<p><strong>PS.</strong> Not every <strong>method&#x2F;class</strong> is a gadget.</p>
+<p>A <strong>method&#x2F;class</strong> becomes a gadget if:</p>
 <ul>
 <li>It does something dangerous</li>
 <li>AND it can be triggered automatically during deserialization</li>
 </ul>
-<h4 id="Gadget-Chain"><a href="#Gadget-Chain" class="headerlink" title="Gadget Chain:"></a>Gadget Chain:</h4><p>One gadget may not give RCE directly. So attackers chain multiple gadgets:</p>
-<p>. . .</p>
+<h4 id="Gadget-Chain"><a href="#Gadget-Chain" class="headerlink" title="Gadget Chain:"></a>Gadget Chain:</h4><p>One gadget may not give RCE directly. So attackers chain multiple gadgets to reach RCE or something.</p>
+<p>You can think of it as dominos game:</p>
+<ol>
+<li>Deserialization pushing the first domino </li>
+<li><strong>Gadget A</strong> calls <strong>gadget B</strong></li>
+<li><strong>Gadget B</strong> calls <strong>gadget C</strong></li>
+<li><strong>Final gadget</strong> (Sink gadget) execute something dangerous in the server</li>
+</ol>
 <p>Tools like <a href="https://github.com/pwntester/ysoserial.net">ysoserial.net</a> generate such as these chains automatically.</p>
 <!-- ![sa](https://i.ibb.co/Kjxcnnqk/pic-3.png) -->
 <p><img src="https://i.ibb.co/5XbwjWGk/output-onlinepngtools.png" alt="sa"></p>
-<p>Basically:</p>
+<p>So, as a summary:</p>
 <ul>
-<li>Gadget → Exploitable class</li>
-<li>Gadget Chain → Multiple gadgets chained to reach sink</li>
-<li>Sink → The final gadget in the chain, when triggered leads to RCE</li>
+<li><strong>Gadget</strong> → Exploitable <strong>class&#x2F;method</strong></li>
+<li><strong>Gadget Chain</strong> → Multiple gadgets chained to reach sink</li>
+<li><strong>Sink</strong> → The <strong>final gadget</strong> in the chain, when triggered leads to RCE</li>
 </ul>
-<h4 id="Serializers-Deserializers"><a href="#Serializers-Deserializers" class="headerlink" title="Serializers &amp; Deserializers:"></a>Serializers &amp; Deserializers:</h4><ul>
-<li>A <strong>serializer</strong> converts an object → data.</li>
-<li>A <strong>deserializer</strong> converts data → object.</li>
-</ul>
-<p>So, the concept basicaly is:</p>
-<ul>
-<li><code>object</code> → <code>JSON</code> → <code>object</code></li>
-</ul>
+<h4 id="Serializer-Deserializer"><a href="#Serializer-Deserializer" class="headerlink" title="Serializer &#x2F; Deserializer:"></a>Serializer &#x2F; Deserializer:</h4><p>A <strong>serializer</strong> converts an object → data.<br>A <strong>deserializer</strong> converts data → object.</p>
+<p>So, Basically the concept is:</p>
+<figure class="highlight pgsql"><table><tr><td class="code"><pre><code class="hljs pgsql"><span class="hljs-keyword">object</span> → <span class="hljs-type">JSON</span> → <span class="hljs-keyword">object</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="https://i.ibb.co/JjTm3kpW/Serialization-Deserialization-Diagram.jpg"></p>
 <h4 id="Formatters"><a href="#Formatters" class="headerlink" title="Formatters:"></a>Formatters:</h4><p>In old .NET architecture, a formatter is a type of serializer&#x2F;deserializer designed to convert objects to a specific format.</p>
 <p>Example formatters:</p>
 <ul>
@@ -57,11 +60,15 @@
 <li>SoapFormatter &#x3D;&gt; SOAP XML</li>
 <li>LosFormatter &#x3D;&gt; ASP.NET ViewState</li>
 </ul>
-<p>So the relationship is:<br><strong>Serializer</strong> → general concept (object ↔ data representation)<br><strong>Formatter</strong> → a specific .NET implementation of serialization for a particular format.</p>
-<h3 id="Tools-ysoserial-net"><a href="#Tools-ysoserial-net" class="headerlink" title="Tools: ysoserial.net"></a>Tools: ysoserial.net</h3><p>A tool used to generate malicious serialized payloads for testing .NET deserialization vulnerabilities.</p>
+<p>So the relationship is:</p>
 <ul>
-<li>Contains a collection of known <strong>gadget chains</strong> (e.g., <code>TypeConfuseDelegate</code>, <code>ActivitySurrogateSelector</code>, <code>ObjectDataProvider</code>).</li>
-<li>Generates serialized objects that embed a command within the payload to trigger code execution during the deserialized process.</li>
+<li><strong>Serializer</strong> → general concept (object ↔ data representation)</li>
+<li><strong>Formatter</strong> → a specific .NET implementation of serialization for a particular format.</li>
+</ul>
+<h3 id="Tools-—-ysoserial-net"><a href="#Tools-—-ysoserial-net" class="headerlink" title="Tools — ysoserial.net"></a>Tools — ysoserial.net</h3><p>A tool used to generate malicious serialized payloads for testing .NET deserialization vulnerabilities.</p>
+<ul>
+<li>Contains a collection of known <strong>gadget chains</strong> such as <code>TypeConfuseDelegate</code>, <code>ActivitySurrogateSelector</code>, <code>ObjectDataProvider</code>, <code>WindowsClaimsIdentity</code> etc. these well-known gadget chains also called as <strong>ysoserial common gadgets</strong>.</li>
+<li>It generates serialized objects that embeds a command within the payload to trigger code execution during the deserialized process.</li>
 <li>Used for <strong>security testing and research</strong> of insecure deserialization.</li>
 </ul>
 <p>Official GitHub repository: <a href="https://github.com/pwntester/ysoserial.net">https://github.com/pwntester/ysoserial.net</a></p>
