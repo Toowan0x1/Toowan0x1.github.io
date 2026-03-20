@@ -6,51 +6,42 @@
     <content><![CDATA[<!-- <img src="/img/error-page.png"></img> -->
 
 <h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>This article introduces <strong>Insecure Deserialization attacks in .NET</strong> and explains how attackers abuse gadget chains to achieve remote code execution.</p>
-<p>We will explore:</p>
+<p>In this article, we will explore:</p>
 <ul>
 <li>The fundamentals of .NET deserialization</li>
-<li>Gadget chains, and Serializers</li>
+<li>Gadget chains Concept, and Serializers</li>
 <li>Build a vulnerable ASP.NET lab for testing</li>
 <li>Type metadata abuse via TypeNameHandling.All</li>
 </ul>
 <hr>
-<h2 id="Insecure-Deserialization-in-NET-–-Definition-Key-Concepts-Tools-and-Exploitation-Flow"><a href="#Insecure-Deserialization-in-NET-–-Definition-Key-Concepts-Tools-and-Exploitation-Flow" class="headerlink" title="Insecure Deserialization in .NET – Definition, Key Concepts, Tools, and Exploitation Flow"></a>Insecure Deserialization in .NET – Definition, Key Concepts, Tools, and Exploitation Flow</h2><h3 id="Definition"><a href="#Definition" class="headerlink" title="Definition"></a>Definition</h3><p>This vulnerability occurs when an application deserializes untrusted data without proper validation. this can happen when the target application uses vulnerable libraries, framework classes, or built-in platform classes that can be abused during deserialization.</p>
+<h2 id="Insecure-Deserialization-in-NET-—-Definition-Key-Concepts-Tools-and-Exploitation-Flow"><a href="#Insecure-Deserialization-in-NET-—-Definition-Key-Concepts-Tools-and-Exploitation-Flow" class="headerlink" title="Insecure Deserialization in .NET — Definition, Key Concepts, Tools, and Exploitation Flow"></a>Insecure Deserialization in .NET — Definition, Key Concepts, Tools, and Exploitation Flow</h2><h3 id="Definition"><a href="#Definition" class="headerlink" title="Definition"></a>Definition</h3><p>This vulnerability occurs when an application deserializes untrusted data without proper validation. this can happen when the target application uses vulnerable libraries, framework classes, or built-in platform classes that can be abused during deserialization.</p>
 <p>During deserialization, the application reconstructs objects from serialized data. In some cases, special methods (such as constructors or deserialization callbacks like OnDeserialized) may be automatically executed.</p>
 <p>If an attacker can control the serialized data, they may craft a malicious object that triggers unintended code execution during the deserialization process.</p>
 <p>A vulnerable class that can be abused during deserialization is called a <strong>gadget</strong>.</p>
 <p>When multiple gadgets are chained together so their method calls lead to arbitrary code execution, the sequence is known as a <strong>gadget chain</strong>.</p>
 <h3 id="Key-Concepts"><a href="#Key-Concepts" class="headerlink" title="Key Concepts"></a>Key Concepts</h3><ul>
-<li>Gadget and Gadget Chain</li>
+<li>Gadget</li>
+<li>Gadget Chain and Sink</li>
 <li>Serializers &#x2F; Formatters</li>
 </ul>
-<h4 id="Gadget"><a href="#Gadget" class="headerlink" title="Gadget:"></a>Gadget:</h4><p>A legitimate framework class that can be abused during deserialization to execute unintended behavior.</p>
-<p>They usually come from:</p>
+<h4 id="Gadget"><a href="#Gadget" class="headerlink" title="Gadget:"></a>Gadget:</h4><p>Gadget is a legitimate framework class that can be abused during deserialization to execute unintended behavior. They usually come from <code>Third-party libraries</code>, <code>Framework classes</code>, or <code>Built-in platform classes</code>.</p>
+<p>PS. Not every class is a gadget.</p>
+<p>A class becomes a gadget if:</p>
 <ul>
-<li>Third-party libraries</li>
-<li>Framework classes</li>
-<li>Built-in platform classes</li>
+<li>It does something dangerous</li>
+<li>AND it can be triggered automatically during deserialization</li>
 </ul>
-<h4 id="Gadget-chain"><a href="#Gadget-chain" class="headerlink" title="Gadget chain:"></a>Gadget chain:</h4><ul>
-<li>One gadget may not give RCE directly. So attackers chain multiple gadgets:<br>  <code>Object A</code> → <code>triggers B</code> → <code>calls C</code> → <code>executes Process.Start()</code></li>
-<li>Tools like <a href="https://github.com/pwntester/ysoserial.net">ysoserial.net</a> generate these chains automatically.</li>
+<h4 id="Gadget-Chain"><a href="#Gadget-Chain" class="headerlink" title="Gadget Chain:"></a>Gadget Chain:</h4><p>One gadget may not give RCE directly. So attackers chain multiple gadgets:</p>
+<p>. . .</p>
+<p>Tools like <a href="https://github.com/pwntester/ysoserial.net">ysoserial.net</a> generate such as these chains automatically.</p>
+<!-- ![sa](https://i.ibb.co/Kjxcnnqk/pic-3.png) -->
+<p><img src="https://i.ibb.co/5XbwjWGk/output-onlinepngtools.png" alt="sa"></p>
+<p>Basically:</p>
+<ul>
+<li>Gadget → Exploitable class</li>
+<li>Gadget Chain → Multiple gadgets chained to reach sink</li>
+<li>Sink → The final gadget in the chain, when triggered leads to RCE</li>
 </ul>
-<p><strong>Key Differences</strong></p>
-<table>
-<thead>
-<tr>
-<th>File</th>
-<th>Purpose</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>Gadget</td>
-<td>A specific class (or chain of classes) inside a library that can be abused</td>
-</tr>
-<tr>
-<td>Gadget chain</td>
-<td>Multiple gadgets combined to reach RCE</td>
-</tr>
-</tbody></table>
 <h4 id="Serializers-Deserializers"><a href="#Serializers-Deserializers" class="headerlink" title="Serializers &amp; Deserializers:"></a>Serializers &amp; Deserializers:</h4><ul>
 <li>A <strong>serializer</strong> converts an object → data.</li>
 <li>A <strong>deserializer</strong> converts data → object.</li>
