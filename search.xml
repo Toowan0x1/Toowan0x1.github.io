@@ -61,7 +61,7 @@
 <li><strong>LosFormatter</strong>: used in ASP.NET to serialize&#x2F;deserialize ViewState data</li>
 <li><strong>ObjectStateFormatter</strong>: used by ASP.NET for more efficient Viewstate serialization (replaces <em>LosFormatter</em> internally in many cases)</li>
 </ul>
-<p>We gonna go deep on formatters, ViewState objects, etc in <a href="">Part 2</a></p>
+<p>We gonna go deep on formatters, ViewState objects, etc in <a href="http://localhost:4000/Attacking-NET-Deserialization-II/index/">Part 2</a></p>
 <p>So the relationship simply is like that:</p>
 <figure class="highlight text"><table><tr><td class="code"><pre><code class="hljs text">Serializer → general concept (object ↔ data representation)<br>Formatter  → a specific .NET implementation of serialization for a particular format.<br></code></pre></td></tr></table></figure>
 
