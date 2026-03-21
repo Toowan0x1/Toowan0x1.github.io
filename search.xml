@@ -56,15 +56,16 @@
 <h4 id="Formatters"><a href="#Formatters" class="headerlink" title="Formatters:"></a>Formatters:</h4><p>In old .NET architecture, a formatter is a type of serializer&#x2F;deserializer designed to convert objects to a specific format.</p>
 <p>Example formatters:</p>
 <ul>
-<li>BinaryFormatter &#x3D;&gt; binary</li>
-<li>SoapFormatter &#x3D;&gt; SOAP XML</li>
-<li>LosFormatter &#x3D;&gt; ASP.NET ViewState</li>
+<li><strong>BinaryFormatter</strong>: used to convert object to binary format and back (serialization&#x2F;deserialization)</li>
+<li><strong>SoapFormatter</strong>: serialize objects into SOAP-based XML format</li>
+<li><strong>LosFormatter</strong>: used in ASP.NET to serialize&#x2F;deserialize ViewState data</li>
+<li><strong>ObjectStateFormatter</strong>: used by ASP.NET for more efficient Viewstate serialization (replaces <em>LosFormatter</em> internally in many cases)</li>
 </ul>
-<p>So the relationship is:</p>
-<ul>
-<li><strong>Serializer</strong> → general concept (object ↔ data representation)</li>
-<li><strong>Formatter</strong> → a specific .NET implementation of serialization for a particular format.</li>
-</ul>
+<p>We gonna go deep on formatters, ViewState objects, etc in <a href="">Part 2</a></p>
+<p>So the relationship simply is like that:</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><code class="hljs text">Serializer → general concept (object ↔ data representation)<br>Formatter  → a specific .NET implementation of serialization for a particular format.<br></code></pre></td></tr></table></figure>
+
+
 <h3 id="Tools-—-ysoserial-net"><a href="#Tools-—-ysoserial-net" class="headerlink" title="Tools — ysoserial.net"></a>Tools — ysoserial.net</h3><p>A tool used to generate malicious serialized payloads for testing .NET deserialization vulnerabilities.</p>
 <ul>
 <li>Contains a collection of known <strong>gadget chains</strong> such as <code>TypeConfuseDelegate</code>, <code>ActivitySurrogateSelector</code>, <code>ObjectDataProvider</code>, <code>WindowsClaimsIdentity</code> etc. these well-known gadget chains also called as <strong>ysoserial common gadgets</strong>.</li>
