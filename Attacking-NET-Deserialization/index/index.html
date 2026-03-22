@@ -7,7 +7,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://i0.wp.com/payatu.com/static/images/remoteblogs/pranay.b/insecure-deserialization/pic-3.png?w=800&ssl=1">
 <meta property="article:published_time" content="2026-03-08T03:48:31.000Z">
-<meta property="article:modified_time" content="2026-03-21T02:47:35.821Z">
+<meta property="article:modified_time" content="2026-03-22T22:31:02.688Z">
 <meta property="article:author" content="Toowan0x1">
 <meta property="article:tag" content=".NET">
 <meta property="article:tag" content="ASP.NET">
@@ -25,7 +25,7 @@
   "url": "https://toowan0x1.github.io/Attacking-NET-Deserialization/index/",
   "image": "https://i0.wp.com/payatu.com/static/images/remoteblogs/pranay.b/insecure-deserialization/pic-3.png?w=800&ssl=1",
   "datePublished": "2026-03-08T03:48:31.000Z",
-  "dateModified": "2026-03-21T02:47:35.821Z",
+  "dateModified": "2026-03-22T22:31:02.688Z",
   "author": [
     {
       "@type": "Person",
@@ -227,7 +227,7 @@
 <li><strong>LosFormatter</strong>: used in ASP.NET to serialize&#x2F;deserialize ViewState data</li>
 <li><strong>ObjectStateFormatter</strong>: used by ASP.NET for more efficient Viewstate serialization (replaces <em>LosFormatter</em> internally in many cases)</li>
 </ul>
-<p>We gonna go deep on formatters, ViewState objects, etc in <a target="_blank" rel="noopener" href="http://localhost:4000/Attacking-NET-Deserialization-II/index/">Part 2</a></p>
+<p>We gonna go deep on formatters, ViewState objects, etc in <a href="/Attacking-NET-Deserialization-II/index/">Part 2</a></p>
 <p>So the relationship simply is like that:</p>
 <figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs text">Serializer → general concept (object ↔ data representation)<br>Formatter  → a specific .NET implementation of serialization for a particular format.<br></code></pre></td></tr></table></figure>
 
@@ -279,35 +279,40 @@
 <li>The right gadget chain matching the target’s libraries</li>
 </ul>
 <hr>
-<h2 id="Environment-Setup-Preparing-our-ASP-NET-Lab-to-Test-Deserialization-Attacks-on-NET"><a href="#Environment-Setup-Preparing-our-ASP-NET-Lab-to-Test-Deserialization-Attacks-on-NET" class="headerlink" title="Environment Setup: Preparing our ASP.NET Lab to Test Deserialization Attacks on .NET"></a>Environment Setup: Preparing our ASP.NET Lab to Test Deserialization Attacks on .NET</h2><p>ASP.NET is a web framework developed by Microsoft. It is used to build, Web applications, APIs, Enterprise systems, and Internal company portals.</p>
-<h3 id="Installing-NET-SDK-on-linux"><a href="#Installing-NET-SDK-on-linux" class="headerlink" title="Installing .NET SDK on linux"></a>Installing .NET SDK on linux</h3><p>First you have to update your system with <code>sudo apt update</code> and <code>sudo apt upgrade</code>.</p>
-<p>Install the SDK:</p>
+<h2 id="Environment-Setup-Preparing-our-ASP-NET-Lab-to-Test-Deserialization-Attacks-on-NET"><a href="#Environment-Setup-Preparing-our-ASP-NET-Lab-to-Test-Deserialization-Attacks-on-NET" class="headerlink" title="Environment Setup: Preparing our ASP.NET Lab to Test Deserialization Attacks on .NET"></a>Environment Setup: Preparing our ASP.NET Lab to Test Deserialization Attacks on .NET</h2><p>We’re going to setup our ASP.NET webserver which is a web framework developed by Microsoft used to build Web applications, APIs, Enterprise systems, and Internal company portals.</p>
+<h3 id="Installing-NET-SDK-on-linux"><a href="#Installing-NET-SDK-on-linux" class="headerlink" title="Installing .NET SDK on linux"></a>Installing .NET SDK on linux</h3><p>First, updating our system with <code>sudo apt update</code> and <code>sudo apt upgrade</code>.</p>
+<p>Installing the SDK:</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">sudo</span> apt install -y dotnet-sdk-6.0<br></code></pre></td></tr></table></figure>
 
-<p>Verify installation:</p>
+<p>Verifying the installation:</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">dotnet --version<br></code></pre></td></tr></table></figure>
 
-<h3 id="Create-a-Test-ASP-NET-Web-App"><a href="#Create-a-Test-ASP-NET-Web-App" class="headerlink" title="Create a Test ASP.NET Web App"></a>Create a Test ASP.NET Web App</h3><p>Create a project folder:</p>
+<h3 id="Create-a-Test-ASP-NET-Web-App"><a href="#Create-a-Test-ASP-NET-Web-App" class="headerlink" title="Create a Test ASP.NET Web App"></a>Create a Test ASP.NET Web App</h3><p>Creating project folder:</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">mkdir</span> dotnet-test<br><span class="hljs-built_in">cd</span> dotnet-test<br></code></pre></td></tr></table></figure>
 
-<p>Create a new web app:</p>
+<p>Creating a new web app:</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">dotnet new webapp<br></code></pre></td></tr></table></figure>
 <p>This generates an ASP.NET Core Razor application.</p>
 <h3 id="Run-the-NET-webserver-locally"><a href="#Run-the-NET-webserver-locally" class="headerlink" title="Run the .NET webserver locally:"></a>Run the .NET webserver locally:</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">dotnet run<br></code></pre></td></tr></table></figure>
 
-<p>You should see something like:</p>
+<p>We should see something like:</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">Now listening on: http://localhost:5000<br></code></pre></td></tr></table></figure>
 
 <p>Open browser <code>http://localhost:5000</code> or testing locally from Burpsuite, we can run the server like that:</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">dotnet run --urls=http://0.0.0.0:5000<br></code></pre></td></tr></table></figure>
-<p>Then intercept traffic using burpsuite.</p>
-<p>Now we can create simple vulnerable endpoints in ASP.NET and test using:</p>
+<p>Then intercepting traffic using burpsuite.</p>
+<p>If burpsuite fails to intercept the <code>localhost</code> domain requests, you can edit <code>/etc/hosts</code> and use a custom domain namea instead of <code>localhost</code> or <code>127.0.0.1</code>.</p>
+<p>Since our server is ready now, We can start creating simple vulnerable endpoints in our ASP.NET server and test various formatters such as:</p>
 <ul>
 <li>Newtonsoft.Json</li>
-<li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/dotnet/api/system.runtime.serialization.formatters.binary.binaryformatter?view=net-10.0">BinaryFormatter</a></li>
-<li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/dotnet/api/system.runtime.serialization.datacontractserializer?view=net-10.0">DataContractSerializer</a></li>
-<li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/dotnet/api/system.web.ui.objectstateformatter?view=netframework-4.8.1">ObjectStateFormatter</a></li>
+<li>BinaryFormatter</li>
+<li>LosFormatter</li>
+<li>DataContractSerializer</li>
+<li>ObjectStateFormatter</li>
 </ul>
+<p>However, It’s important to note that many of these formatters, including <code>BinaryFormatter</code>, <code>LosFormatter</code>, <code>DataContractSerializer</code>, and <code>ObjectStateFormatter</code>, are no longer supported in modern .NET runtimes, particularly versions above 4.0 Even if these formatters work, you will encounter compatibility issues.</p>
+<p>In our case (.NET 6.0), only <code>Newtonsoft.Json</code> is still supported and we can test it with <code>TypeNameHandlingAll</code>.</p>
+<p>The remaining formatters are no longer supported by modern SDKs. Because these formatters requires .NET versions &lt;&#x3D; 4.0.</p>
 <h3 id="Create-minimal-ASP-NET-web-app"><a href="#Create-minimal-ASP-NET-web-app" class="headerlink" title="Create minimal ASP.NET web app"></a>Create minimal ASP.NET web app</h3><p>Create template for a minimal ASP.NET web application (no Razor pages, just a simple HTTP server):</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">dotnet new web -n &lt;dotnet_appName&gt;<br></code></pre></td></tr></table></figure>
 
