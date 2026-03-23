@@ -73,34 +73,18 @@
 <li>Used for <strong>security testing and research</strong> of insecure deserialization.</li>
 </ul>
 <p>Official GitHub repository: <a href="https://github.com/pwntester/ysoserial.net">https://github.com/pwntester/ysoserial.net</a></p>
-<h3 id="Exploitation-Attack-flow"><a href="#Exploitation-Attack-flow" class="headerlink" title="Exploitation (Attack flow)"></a>Exploitation (Attack flow)</h3><h4 id="What-happen-internally"><a href="#What-happen-internally" class="headerlink" title="What happen internally?"></a>What happen internally?</h4><p>During deserialization:</p>
-<ol>
+<h3 id="Exploitation-Attack-flow"><a href="#Exploitation-Attack-flow" class="headerlink" title="Exploitation (Attack flow)"></a>Exploitation (Attack flow)</h3><h4 id="What-happen-internally"><a href="#What-happen-internally" class="headerlink" title="What happen internally?"></a>What happen internally?</h4><p>During deserialization process:</p>
+<ul>
 <li>The application reconstructs objects from user input</li>
 <li>Some objects execute code automatically during construction or property initialization</li>
 <li>If the attacker controls the object data, this behavior can be abused</li>
-</ol>
-<p>If the attacker controls <strong>both the object type and its data</strong>, a gadget chain may execute dangerous functionality.</p>
-<p><strong>Example</strong>:<br>A gadget might:</p>
-<ul>
-<li>Accept method name</li>
-<li>Accept parameters</li>
-<li>Invoke method during deserialization</li>
-<li>If attacker sets <code>Method = &quot;Start&quot; Parameter = &quot;cmd.exe&quot;</code></li>
-<li>Boom → RCE.</li>
 </ul>
-<h4 id="Why-do-gadgets-exist-in-large-frameworks"><a href="#Why-do-gadgets-exist-in-large-frameworks" class="headerlink" title="Why do gadgets exist in large frameworks?"></a>Why do gadgets exist in large frameworks?</h4><p>Most large frameworks contain gadgets because:</p>
-<ul>
-<li>They were not designed with deserialization attacks in mind</li>
-<li>Many classes contain dynamic behaviors such as reflection, callbacks, or event handlers</li>
-</ul>
-<h4 id="When-does-this-attack-become-possible"><a href="#When-does-this-attack-become-possible" class="headerlink" title="When does this attack become possible?"></a>When does this attack become possible?</h4><p>An insecure deserialization attack becomes possible when:</p>
-<ul>
-<li>A <strong>gadget</strong> exists</li>
-<li>Gadget executes something during deserialization</li>
-<li>That something can be influenced by attacker</li>
-</ul>
-<p>In old .NET Framework, gadgets such as <code>ObjectDataProvider</code>, <code>TypeConfuseDelegate</code>, <code>WindowsIdentity</code> were commonly abused.</p>
-<p>In modern environments such as <strong>.NET 6+</strong>:</p>
+<p><em>If the attacker controls <strong>both the object <code>type</code> and its data</strong>, a gadget chain may execute dangerous functionality.</em></p>
+<p><img src="https://i.ibb.co/xt8P94f9/Screenshot-From-2026-03-23-01-34-00.png"></p>
+<p>If an attacker can control the input, they can change the <code>$type</code> to an unexpected class, and it might trigger malicious behavior (like code execution).</p>
+<hr>
+<p>In old .NET Framework, gadgets such as ObjectDataProvider, TypeConfuseDelegate, WindowsIdentity were commonly abused.</p>
+<p>Note that in modern environments and .NET versions (above 4.0):</p>
 <ul>
 <li>Exploitation is generally more difficult</li>
 <li>Many insecure serializers are deprecated or restricted</li>
