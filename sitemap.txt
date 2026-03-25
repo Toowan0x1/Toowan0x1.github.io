@@ -1,4 +1,3 @@
-https://toowan0x1.github.io/Attacking-NET-Deserialization/index/
 https://toowan0x1.github.io/about/index.html
 https://toowan0x1.github.io/404.html
 https://toowan0x1.github.io/projects/index.html
